@@ -1,0 +1,5 @@
+1. Sharpe ratio
+2. Maximum drawdown
+3. Maximum drawdown duration
+4. correlation
+5. RMSE

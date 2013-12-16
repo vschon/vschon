@@ -1,0 +1,2 @@
+/home/brandon/VSCHON/VT_CPP/FXCM/build/source/CMakeFiles/VT.dir
+/home/brandon/VSCHON/VT_CPP/FXCM/build/source/login/CMakeFiles/login.dir

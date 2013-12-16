@@ -1,0 +1,10 @@
+NAME     test1
+
+DATA
+usdjpy by select time:time,quantity:bid from forex_quote where date = 2013.08.01, symbol =`USDJPY
+audjpy by select time,quantity:bid from forex_quote where date=2013.08.01,symbol=`AUDJPY
+
+FEATURE
+hawkes using usdjpy by hawkes with params = np.array([0.2,0.2,0.1,0.7,0.7,0.1,1.0,1.0]) 
+
+END

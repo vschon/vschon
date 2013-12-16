@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Simulator Example &mdash; VSHON 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="VSHON 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="5. Simulator and backtesting" href="../simulator.html" />
+    <link rel="next" title="6. Dataset and data loaders" href="../data.html" />
+    <link rel="prev" title="5. Simulator and backtesting" href="../simulator.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../data.html" title="6. Dataset and data loaders"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../simulator.html" title="5. Simulator and backtesting"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">VSHON 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../simulator.html" accesskey="U">5. Simulator and backtesting</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="simulator-example">
+<h1>Simulator Example<a class="headerlink" href="#simulator-example" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">VA_PYTHON</span> <span class="kn">as</span> <span class="nn">va</span>
+<span class="kn">import</span> <span class="nn">VD_KDB</span> <span class="kn">as</span> <span class="nn">vd</span>
+<span class="kn">import</span> <span class="nn">ipdb</span>
+
+<span class="k">def</span> <span class="nf">demo</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;demonstrating event system&#39;</span>
+
+    <span class="c">#1. create simulator</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">simulator</span><span class="p">()</span>
+
+    <span class="c">####Initialization####</span>
+
+    <span class="c">#2. set data list</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setdatalist</span><span class="p">((</span><span class="s">&#39;forex_quote-usdjpy&#39;</span><span class="p">,))</span>
+
+    <span class="c">#3. set market list</span>
+    <span class="c">#set the first 2 element in datalist as market list</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setMarketList</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c">#4. set order matcher for each market data</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setOrderMatcher</span><span class="p">([</span><span class="s">&#39;forex_quote&#39;</span><span class="p">,])</span>
+
+    <span class="c">#5. set delay time for each order matcher</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setDelayTime</span><span class="p">((</span><span class="mi">2000</span><span class="p">,))</span>
+
+    <span class="c">#6. match trade symbol and market data index</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">matchSymbol</span><span class="p">([</span><span class="s">&#39;usdjpy-0&#39;</span><span class="p">,])</span>
+
+    <span class="c">#7. set cycles</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setCycle</span><span class="p">(</span><span class="s">&#39;2013.01.01&#39;</span><span class="p">,</span><span class="s">&#39;23:00:00&#39;</span><span class="p">,</span><span class="s">&#39;2013.03.31&#39;</span><span class="p">,</span><span class="s">&#39;07:00:00&#39;</span><span class="p">)</span>
+    <span class="c">####CHECK CYCLE AND REPLACE DATA</span>
+
+    <span class="c">#8. set daily stop time delta(in seconds)</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setDailyStopDelta</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+
+    <span class="c">#9. set sim timer increment (in microseconds)</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setSimTimerIncrement</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;theta&#39;</span><span class="p">:[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.6</span><span class="p">],</span>
+                  <span class="s">&#39;number&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+                  <span class="s">&#39;k&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+                  <span class="s">&#39;exitdelta&#39;</span><span class="p">:</span><span class="mi">20</span><span class="p">}</span>
+
+    <span class="n">sim</span><span class="o">.</span><span class="n">setTraderParams</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+
+    <span class="c">#9. config portfolio</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">setcapital</span><span class="p">(</span><span class="mf">1000000.0</span><span class="p">)</span>
+
+    <span class="c">#10. set trader</span>
+    <span class="c">#sim.setTrader(&#39;hawkes&#39;)</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">strategy</span><span class="o">.</span><span class="n">hawkes</span><span class="o">.</span><span class="n">hawkes</span><span class="o">.</span><span class="n">hawkesTrader_filter</span><span class="p">()</span>
+
+    <span class="c">#10.1 set trader name</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="s">&#39;hawkes_filter&#39;</span><span class="p">)</span>
+
+    <span class="c">#10.2 set symbol list</span>
+    <span class="c">#the index of each symbol corresponds to the symbol index used by the trader</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span><span class="o">.</span><span class="n">setsymbols</span><span class="p">([</span><span class="s">&#39;usdjpy&#39;</span><span class="p">,])</span>
+
+    <span class="c">#set trader sender for each symbol</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span><span class="o">.</span><span class="n">setsender</span><span class="p">([</span><span class="n">sim</span><span class="o">.</span><span class="n">simOrderProcessor</span><span class="p">,])</span>
+
+    <span class="c">#set filter for each market</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span><span class="o">.</span><span class="n">setfilter</span><span class="p">([</span><span class="s">&#39;forex_quote-single_price&#39;</span><span class="p">,])</span>
+
+    <span class="c">#set trader reverse flag</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">trader</span><span class="o">.</span><span class="n">Reverse</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sim</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">demo</span><span class="p">()</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../simulator.html"
+                        title="previous chapter">5. Simulator and backtesting</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../data.html"
+                        title="next chapter">6. Dataset and data loaders</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/simulator/simulator_example.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../data.html" title="6. Dataset and data loaders"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../simulator.html" title="5. Simulator and backtesting"
+             >previous</a> |</li>
+        <li><a href="../index.html">VSHON 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../simulator.html" >5. Simulator and backtesting</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Brandon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

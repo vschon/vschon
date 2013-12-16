@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/VT.dir/main.cpp.o  -o ../../bin/VT -rdynamic login/liblogin.a 

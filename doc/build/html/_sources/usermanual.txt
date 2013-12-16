@@ -1,0 +1,39 @@
+***********
+User Manual
+***********
+
+3. VD_KDB(vd)
+=============
+VD_KDB contains database manager for each database. Also, it has python API for KDB.
+
+TODO: Restructure the module in following way
+
+.. currentmodule:: pyapi
+
+.. autoclass:: dataloader
+   :members:
+   
+   .. automethod:: __init__
+
+4. VA_PYTHON(va)
+================
+4.1 Submodule: models
+---------------------
+This module contains models/algos used for financial data modelling.
+
+4.1.1 hawkes
+^^^^^^^^^^^^
+
+Examples::
+
+   from va.models.hawkes import hawkes
+   myHawkes = hawkes()
+   myHawkes.fit(Price)
+   pred = myHawkes.predict(ahead = 2)
+
+4.2 Submodule: simulator
+------------------------
+
+4.3 Submodule: strategy
+-----------------------
+

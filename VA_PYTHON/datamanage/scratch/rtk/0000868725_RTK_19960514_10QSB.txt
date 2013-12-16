@@ -1,0 +1,805 @@
+-----BEGIN PRIVACY-ENHANCED MESSAGE-----
+Proc-Type: 2001,MIC-CLEAR
+Originator-Name: webmaster@www.sec.gov
+Originator-Key-Asymmetric:
+ MFgwCgYEVQgBAQICAf8DSgAwRwJAW2sNKK9AVtBzYZmr6aGjlWyK3XmZv3dTINen
+ TWSM7vrzLADbmYQaionwg5sDW3P6oaM5D3tdezXMm7z1T+B+twIDAQAB
+MIC-Info: RSA-MD5,RSA,
+ MLR9RUaHUuZZ1ofnX8l1y/FF1t4AirA/tYLcjJ1rdLaE34rXU3mDXI7IZ5IjEHGZ
+ Txh4Cq4r9EAJBzppBNtDXw==
+
+<SEC-DOCUMENT>0000899246-96-000012.txt : 19960629
+<SEC-HEADER>0000899246-96-000012.hdr.sgml : 19960629
+ACCESSION NUMBER:		0000899246-96-000012
+CONFORMED SUBMISSION TYPE:	10QSB
+PUBLIC DOCUMENT COUNT:		2
+CONFORMED PERIOD OF REPORT:	19960331
+FILED AS OF DATE:		19960514
+SROS:			NASD
+
+FILER:
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			RENTECH INC /CO/
+		CENTRAL INDEX KEY:			0000868725
+		STANDARD INDUSTRIAL CLASSIFICATION:	6794
+		IRS NUMBER:				840957421
+		STATE OF INCORPORATION:			CO
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		10QSB
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	000-19260
+		FILM NUMBER:		96563110
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1331 17TH STREET SUITE 720
+		CITY:			DENVER
+		STATE:			CO
+		ZIP:			80202-1566
+		BUSINESS PHONE:		3035714158
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>10QSB
+<SEQUENCE>1
+<TEXT>
+
+
+
+<PAGE>
+                                                                  PAGE 1
+
+
+
+                      U.S. SECURITIES AND EXCHANGE COMMISSION
+                              Washington, D.C.   20549
+
+
+                                    FORM 10-QSB
+
+
+
+[ X ]   QUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES
+        EXCHANGE ACT OF 1934
+        For the quarterly period ended March 31, 1996
+
+[   ]   TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES
+        EXCHANGE ACT OF 1934
+        For the transition period from              to             
+                                       ------------    ------------
+Commission File Number 0-19260
+
+
+
+                                   RENTECH, INC.
+                  (Name of small business issuer in its charter)
+
+
+Colorado                                                         84-0957421
+- - -------------------------------                            ----------------
+(State or other jurisdiction of                            (I.R.S. Employer
+incorporation or organization)                           Identification No.)
+
+
+                            1331 17th Street, Suite 720
+                              Denver, Colorado  80202
+                            -----------------------------
+                      (Address of principal executive offices)
+
+Issuer's telephone number, including area code:
+(303) 298-8008
+
+
+     Check whether the issuer: (1) filed all reports required to be filed by
+Section 13 or 15(d) of the Securities Exchange Act of 1934 during the past 12
+months (or for such shorter period that the registrant was required to file
+such reports); and (2) has been subject to such filing requirements for the
+past 90 days.     Yes  X       No  
+                     -----       -----
+
+     The number of shares outstanding of each of the issuer's classes of
+common equity, as of March 31, 1996:  common stock - 10,006,868.
+
+     This report consists of 14 pages, including one page constituting the
+cover page.
+
+
+
+
+<PAGE>
+
+<PAGE>
+                                                                  PAGE 2
+
+                                   RENTECH, INC.
+                           FORM 10-QSB QUARTERLY REPORT
+
+                                 Table of Contents
+
+                          PART I - FINANCIAL INFORMATION
+
+Item 1.     Consolidated Financial Statements:
+
+            Consolidated Balance Sheets as of March 31, 1996
+            and December 31, 1995 . . . . . . . . . . . . . . . . . . .   3
+
+            Consolidated Statements of Operations for the three months
+            ended March 31, 1996 and March 31, 1995 . . . . . . . . . .   5
+
+            Condensed Consolidated Statement of Stockholders' Equity
+            for the three months ended March 31, 1996 . . . . . . . . .   6
+
+            Consolidated Statement of Cash Flows for the three 
+            months ended March 31, 1996 and March  31, 1995 . . . . . .   7
+
+            Notes to the Consolidated Financial Statements  . . . . . .   8
+
+Item 2.     Management's Discussion and Analysis of Financial
+            Condition and Results of Operations . . . . . . . . . . . .  10
+
+
+                          PART II - OTHER INFORMATION
+
+Item 1.     Legal Proceedings - None.
+
+Item 2.     Change in Securities - None.
+
+Item 3.     Defaults Upon Senior Securities - None.
+
+Item 4.     Submission of Matters to a Vote of Security Holders - None.
+
+Item 5.     Other Information - None.
+
+Item 6.     Exhibits and Reports on Form 8-K  . . . . . . . . . . . . .  13
+
+      (a)   Exhibits - None
+      (b)   Reports on Form 8-K . . . . . . . . . . . . . . . . . . . .  13<PAGE>
+
+<PAGE>
+                                                                       PAGE 3
+
+<TABLE>
+                                RENTECH, INC. AND SUBSIDIARY
+                                 CONSOLIDATED BALANCE SHEETS
+                                         (Unaudited)
+<CAPTION>
+ASSETS                                         March 31, 1996  December 31, 1995
+- - ------                                         --------------  -----------------
+<S>                                            <C>             <C>
+Current Assets
+     Cash and cash equivalents                  $   125,309       $    15,908
+     Restricted cash, current portion                25,000            25,000
+     Accounts receivable                             45,533           237,070
+     Advances and other current assets                  441             4,272
+                                                 ----------        ----------
+          Total Current Assets                      196,283           282,250
+                                                 ----------        ----------
+
+Property and Equipment
+     Equipment, net of accumulated
+          depreciation of $81,896 and
+          $77,744 as of March 31, 1996
+          and December 31, 1995, respectively        69,880             76,032
+
+Other Assets
+     Licensed technology, net of accumulated
+          amortization of $601,092 and $543,907
+          as of March 31, 1996 and December 31,
+          1995, respectively                      2,830,056          2,887,241
+     Synhytech plant held for sale                  199,500            199,500
+     Deposits and other                              16,390              9,709
+                                                 ----------         ----------
+          Total Other Assets                      3,045,946          3,096,450
+                                                 ----------         ----------
+
+Total Assets                                     $3,312,109         $3,454,732
+                                                 ==========         ==========
+</TABLE>
+
+
+
+See notes to the consolidated financial statements.<PAGE>
+
+<PAGE>
+
+                                                                       PAGE 4
+<TABLE>
+<CAPTION>
+LIABILITIES AND STOCKHOLDERS' EQUITY
+- - ------------------------------------
+
+<S>                                            <C>             <C>
+Current Liabilities
+     Accounts payable                          $   564,610     $   620,255
+     Accrued liabilities                            79,046          50,154
+          Total Current Liabilities                643,656         670,409
+
+Stockholders' Equity
+     Preferred stock - $10 par value;
+     1,000,000 shares authorized; none issued
+     and outstanding
+     Common stock - $.01 par value;
+     100,000,000 shares authorized;
+     10,006,868 and 9,956,868 shares issued
+     and outstanding as of March 31, 1996
+     and December 31, 1995, respectively           100,067          99,567
+     Additional paid-in capital                 10,043,502       9,994,002
+     Accumulated deficit                        (7,475,116)     (7,309,246)
+                                                ----------      ----------
+          Total Stockholders' Equity             2,668,452       2,784,323
+                                                ----------       ---------
+Total Liabilities and Stockholders' Equity      $3,312,109      $3,454,732
+                                                ==========      ==========
+</TABLE>
+
+
+See notes to the consolidated financial statements.<PAGE>
+
+<PAGE>
+                                                                       <PAGE 5>
+<TABLE>
+                                RENTECH, INC. AND SUBSIDIARY
+                            CONSOLIDATED STATEMENTS OF OPERATIONS
+                                         (Unaudited)
+<CAPTION>
+                                                        Three Months Ended
+                                                        ------------------
+                                               March 31, 1996        March 31, 1995
+                                               --------------        --------------
+<S>                                            <C>                   <C>
+REVENUES:
+     Contract revenues                         $       -0-           $    474,004
+     License fees                                  120,000                    -0-
+                                               -----------           ------------
+     Total Revenue                                 120,000                474,004
+                                               -----------           ------------
+COSTS OF SALES:
+     Cost of contracts                                 -0-                342,854
+                                               -----------              ---------
+GROSS PROFIT                                       120,000                131,150
+                                               -----------             ----------
+EXPENSES:
+     General and Administrative                    216,752                302,286
+     Property and Sales Taxes                        5,000                  6,000
+     Depreciation and Amortization                  63,337                 81,064
+          Total Expenses                           285,089                389,350
+                                               -----------             ----------
+
+LOSS FROM OPERATIONS                              (165,089)              (258,200)
+
+OTHER INCOME (EXPENSE):
+     Gain (loss) on sale of assets                     -0-               (230,000)
+     (Loss) on foreign currency                        -0-                  3,712
+     Other income                                    1,200                  8,588
+     Interest income                                   781                  7,625
+     Interest expense                               (2,762)                (1,056)
+                                               -----------            -----------
+     Total Other Income (Expense)                     (781)              (211,131)
+
+NET LOSS                                       $  (165,870)          $   (469,331)
+                                               ===========            ===========
+
+Weighted average number
+of shares outstanding                           10,006,868              9,806,868
+
+Per Share (Loss)                                    $(0.02)                $(0.05)
+
+</TABLE>
+
+
+See notes to the consolidated financial statements.<PAGE>
+
+<PAGE>
+                                                                       <PAGE 6>
+                                RENTECH, INC. AND SUBSIDIARY
+                   CONDENSED CONSOLIDATED STATEMENT OF STOCKHOLDERS' EQUITY
+                          FOR THE THREE MONTHS ENDED MARCH 31, 1996
+                                         (Unaudited)
+<TABLE>
+<CAPTION>
+                                                        Additional
+                                              Par         Paid-In        Accumulated
+                                Shares       Value        Capital          Deficit   
+                               ---------    -------     -----------    --------------
+<S>                            <C>          <C>         <C>            <C>
+Balances,
+     December 31, 1995         9,956,868    $ 99,567    $ 9,994,002    $(7,309,246)
+
+     Common Stock Issuances       50,000         500         49,500
+
+     Net loss for the three
+     months ended
+     March 31, 1996                                                       (165,870)
+                              ----------    --------    -----------    -----------
+Balances, March 31, 1996
+(unaudited)                   10,006,868    $100,067    $10,043,502    $(7,475,116)
+                              ==========    ========    ===========    ===========
+
+</TABLE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+See notes to the consolidated financial statements.<PAGE>
+
+<PAGE>
+                                                                       <PAGE 7>
+<TABLE>
+                                 RENTECH, INC. AND SUBSIDIARY
+                            CONSOLIDATED STATEMENT OF CASH FLOWS
+                     For the Three Months Ended March 31, 1996 and 1995
+                                         (Unaudited)
+<CAPTION>
+
+                                                             1996              1995
+                                                             ----              ----
+<S>                                                          <C>               <C>
+Operating Activities
+     Net Income (Loss)                                       $(165,870)        $(469,331)
+     Adjustments to reconcile net loss to net cash
+          provided (used in) operating activities:
+          Allowance for loss on sale of assets                     -0-           230,000
+          Foreign currency translation                             -0-             5,155
+          Depreciation and amortization                         63,337            81,064
+     Changes in operating assets and liabilities:
+          (Increase) Decrease in accounts receivable           191,537           (19,955)
+          (Increase) Decrease in other current assets            3,831            (4,231)
+          (Increase) Decrease in deposits and other assets      (6,681)           11,263
+          Increase (Decrease) in billings in excess of
+               costs and estimated earnings on 
+               uncompleted contracts                               -0-          (109,393)
+          Increase (Decrease) in accounts payable
+          and other accrued expenses                           (26,753)           41,848)
+Net Cash Provided By (Used in) Operating Activities:            59,401          (317,276)
+                                                             ---------          --------
+Investing Activities
+     Proceeds from sale of assets                                  -0-               -0-
+     Purchase of equipment                                         -0-               -0-
+     (Increase) Decrease in deferred costs                         -0-               -0-
+                                                             ---------       -----------
+Net Cash Provided By (Used in) Investing Activities:               -0-               -0-
+                                                             ---------       -----------
+Financing Activities
+     Proceeds from issuance of private placement offering       50,000               -0-
+     Payment on capital lease obligation                           -0-              (275)
+                                                             ---------       -----------
+Net Cash Provided (Used) by Financing Activities                50,000              (275)
+                                                             ---------       -----------
+Increase (Decrease) in Cash                                    109,401          (317,551)
+
+Cash Beginning Balance                                          15,908           890,717
+                                                             ---------         ---------
+Cash Ending Balance                                          $ 125,309         $ 573,166
+                                                             =========         =========
+
+</TABLE>
+
+
+
+
+See notes to consolidated financial statements.<PAGE>
+
+<PAGE>
+                                                                    <PAGE 8>
+                                RENTECH, INC. AND SUBSIDIARY
+                       NOTES TO THE CONSOLIDATED FINANCIAL STATEMENTS
+                                       March 31, 1996
+                                         (Unaudited)
+
+1.  Basis of Presentation
+
+     The accompanying unaudited consolidated financial statements have been
+prepared in accordance with generally accepted accounting principles for
+interim financial information and with the instructions to Form 10-QSB and
+Regulation S-B.  Accordingly, they do not include all of the information and
+footnotes required by generally accepted accounting principles for complete
+financial statements.  The accompanying statements should be read in
+conjunction with the audited financial statements included in the Company's
+1995 annual report on Form 10-KSB.  In the opinion of management, all
+adjustments (consisting only of normal recurring accruals) considered
+necessary for a fair presentation have been included.  Operating results for
+the three months ended March 31, 1996 are not necessarily indicative of the
+results that may be expected for the full calendar year ending December 31,
+1996.  All dollar amounts included herein are in U.S. dollars, unless
+otherwise indicated.  The financial statements are presented on an accrual
+basis.
+
+2.  Significant Accounting Policies
+
+     Consolidation - The consolidated financial statements include the
+accounts of the Company and its wholly-owned foreign subsidiary, Future Fuels
+Pty Limited (Future Fuels).  All material intercompany accounts and
+transactions have been eliminated in consolidation.  Future Fuels, an
+Australian company organized on March 31, 1988, was engaged in the business of
+developing process plants that use the Company's proprietary technology before
+its liquidation for accounting purposes during December 1995.
+
+     Translation of Foreign Currencies - Assets and liabilities of the
+Company's foreign subsidiary, Future Fuels, are translated at the rate of
+exchange in effect on the balance sheet date; income and expenses, in general,
+are translated at the average rates of exchange prevailing during the year. 
+Transaction gains and losses as a result of exchange rate changes on
+transactions denominated in currencies other than the functional currency are
+included in determining net income for the period incurred.
+
+     Licensed Technology - Capitalized investment in licensed technology
+represents costs incurred by the Company primarily for the purpose of
+demonstrating the Company's proprietary technology to prospective licensees,
+which it licenses to third parties under various fee arrangements.  These
+capitalized costs are being amortized using the straight line method over 15
+years.
+
+     Synhytech Plant Held for Sale - The Synhytech plant held for sale is
+recorded at the lower of cost or net realizable value.
+
+     Equipment - Equipment is stated at cost and depreciated using the
+straight-line method over the estimated useful lives of the assets, which
+range from five to seven years.  Maintenance and repairs are expensed as
+incurred.  Major renewals and improvements are capitalized and assets replaced
+are retired.  When property and equipment are retired or otherwise disposed
+of, the asset and accumulated depreciation are removed from the accounts and
+the resulting profit or loss is reflected in income.
+
+     Investments - Long-term investments in common stock are accounted for
+under the cost method of accounting.
+
+
+
+
+
+
+
+<PAGE>
+                                                                    <PAGE 9>
+
+     Revenue Recognition - The Company reports its contract revenue on
+fixed-priced contracts using the percentage-of-completion method of
+accounting measured by the percentage of job costs incurred to date to
+the latest estimated cost to complete for each project.  Job costs
+incurred prior to the Company's entering into a contract are expensed
+as incurred and excluded from the percentage-of-completion calculation.
+
+     Contract costs include all direct material, labor, travel and other costs
+directly related to contracts and indirect costs.  Indirect costs include all
+other costs indirectly related to contract completion such as indirect labor,
+supplies, tools and equipment rental.
+
+     Research and Development Costs - Research and development costs are
+charged to expense as incurred.
+
+     Net Income (Loss) Per Share - The net loss per share of common stock is
+determined using the weighted-average number of shares outstanding during the
+period according to rules of the Securities and Exchange Commission.  Options
+for common stock and warrants are not considered in the computation of net
+loss per share as their inclusion would be antidilutive.
+
+<PAGE>
+<PAGE>
+                                                                    <PAGE 10>
+
+Item 2.     MANAGEMENT'S DISCUSSION AND ANALYSIS OF FINANCIAL CONDITION AND
+            RESULTS OF OPERATIONS
+
+Results of Operations
+
+     During the three months ended March 31, 1996 and 1995, the Company
+recorded losses of $165,870 and $469,331, respectively.  The primary reasons
+for the decrease in the net loss during the current period is the inclusion
+during the first quarter of 1995 of a $230,000 loss allowance on the sale of
+the Synhytech assets and the inclusion of $36,620 in general and
+administrative expenses related to the consolidation of Future Fuels.  If
+these items were excluded, the comparable first quarter losses for 1996 and
+1995 would be $165,870 and $202,711, respectively, a decrease of 18%.
+
+     During the three months ended March 31, 1996, the Company had no contract
+revenues compared to $474,004 during the comparable period ended March 31,
+1995.  This reduction to zero during the current period reflects the
+termination of the Henan Project by Future Fuels Pty Limited, a wholly-owned
+subsidiary that was liquidated during 1995 for accounting purposes.  See the
+following section entitled "Liquidity and Capital Resources" for further
+details regarding the Henan Project and Future Fuels liquidation.
+
+     During the three months ended March 31, 1996, the Company received a
+$120,000 license fee from Donyi Polo.  Donyi Polo purchased the Company's
+Synhytech plant during the first quarter of 1995 with the intent to dismantle
+the plant located in Pueblo, Colorado, ship it to Arunachal Pradesh, India,
+reassemble the plant, and then use the Company's licensed technology to
+operate the plant as a commercial facility.  There were no license fees
+received during the first quarter of 1995.
+
+     Cost of contracts decreased to zero during 1996 compared to $342,854
+during 1995.  The elimination of both the contract revenue and the cost of
+contracts is due to the discontinuation of the Henan Project contract and the
+resulting liquidation of Future Fuels for accounting purposes during 1995.
+
+     Gross profit decreased 8% to $120,000 from $131,150 for the comparable
+three month periods ended March 31, 1996 and 1995, respectively.  Although the
+reduction in gross profit is only slight during the comparable first quarters,
+no such contract revenues nor additional license fees are anticipated during
+the remainder of 1996.
+
+     General and administrative expenses decreased by $85,534 or 28% for the
+first quarter of 1996, compared to the same quarter in 1995.  This reduction
+reflects the liquidation of Future Fuels Pty Limited during December 1995. 
+The first quarter of 1995 reflects $36,620 in Future Fuels' expenses compared
+to zero during the first quarter of 1996.  Excluding the Future Fuels'
+expenses, the comparable general and administrative expenses decreased during
+the first quarter of 1996 by $48,914 or 18%.  The decrease is due primarily to
+reimbursements from Donyi Polo, required under its contract, to the Company
+for a major portion of the Synhytech holding costs.
+
+     Property and sales taxes are estimated at slightly less during 1996 due
+to the anticipated sale of the remaining buildings at the Synhytech plant.
+
+     Depreciation and amortization decreased by 21% to $63,337 for the current
+quarter ended March 31, 1996 from $81,064 for the quarter ended March 31,
+1995.  The reduction is due primarily to the liquidation of Future Fuels and
+the write off of approximately $800,000 of goodwill during 1995 that was to be
+amortized over the next 12 years.
+
+     Allowance for loss on sale of assets reflects the sale of the Synhytech
+plant at a non-cash loss of approximately $230,000 during the first quarter of
+1995.  The remaining value of the Synhytech assets held for sale is $199,500
+at March 31, 1996, which is the contract price for the sale of those assets to
+Donyi Polo.
+
+
+
+<PAGE>
+                                                                    <PAGE 11>
+
+     Loss on foreign currency during the first quarter of 1995 was related to
+the consolidation of the Company's financial statements with those of Future
+Fuels, which was liquidated during December 1995 for accounting purposes.
+
+     Other income during the first quarter of 1996 was less than the same
+quarter in 1995 due to an unexpected $7,500 payment received during the first
+quarter of 1995 regarding the sale of a non-valued asset.
+
+     Interest income was nearly ten times greater during the first quarter of
+1995 as compared to the first quarter of 1996 because of the Company's
+completion of a private placement of its restricted common stock during the
+third quarter of 1994 which netted $1,117,054.
+
+     Interest expense during the first quarter of 1996 was over twice that of
+the first quarter of 1995 due to additional interest charges on trade accounts
+payable.
+
+
+Liquidity and Capital Resources.
+
+     The Company has incurred losses since its inception and at March 31,
+1996, the Company had a working capital deficit of $447,373 as compared to
+$388,159 at December 31, 1995.  The $59,214 or 15% increase in the working
+capital deficit is due to the ongoing losses from operations which raises
+substantial doubt about the ability of the Company to continue as a going
+concern.
+
+     The Company's financial outlook was seriously worsened in the fourth
+quarter of 1995 when a contract dispute arose between the Company's Australian
+subsidiary, Future Fuels Pty Ltd., and the Australian joint venture composed
+of Energy Equipment Pty Ltd. and CMPS&F Pty Ltd.  As a result of the dispute,
+the subcontract of Future Fuels to provide basic engineering design and
+operating data to the joint venture for construction of the Henan project in
+China was discontinued in 1995 and considered terminated at year end for
+accounting purposes.
+
+     The suspension of Future Fuels' subcontract for the Henan Project
+deprived Rentech of what it had expected to be the major source of its income
+for the next several years through 1998.  The contract was for a total of
+approximately $10.9 million, of which approximately $1,431,000 had been
+received.  Future Fuels was owed approximately $356,000 by the joint venture
+when the subcontract was deemed terminated, and does not expect to recover
+that sum from the joint venture.
+
+     As a result of the discontinuation, and ultimate termination for
+accounting purposes, of Future Fuels' contract for the Henan Project, the
+operations of Future Fuels were closed, the employees and independent
+contractors discharged, and the business wound up in late 1995.  In February
+1996, Future Fuels filed for liquidation under Australian law.  On March 21,
+1996, a trustee was appointed to liquidate the assets and discharge the
+liabilities to the extent of the assets.  The liabilities of Future Fuels
+exceed the value of its assets, and Rentech, as the sole shareholder and major
+creditor, does not expect to receive any distribution from the liquidation of
+its subsidiary.
+
+     Unanticipated delays in receipt of payments due from the license
+agreement and design contract for the Arunachal Pradesh project will create a
+shortage in the Company's cash flow within the next few weeks.  In order to
+bridge the gap between that time and later in the year when the Company
+expects to receive payments on those contracts and proceeds from the
+anticipated sale of the Synhytech buildings, the Company is now attempting to 
+
+
+
+
+
+
+<PAGE>
+                                                                    <PAGE 12>
+
+
+raise operating capital from several of its shareholders who have substantial
+stock holdings in the Company.  The Company is planning to issue its non-
+subordinated convertible debenture notes to the shareholders to raise
+approximately $250,000 and as much as $500,000.  As presently proposed, the
+debenture notes would bear interest at 10% per annum, be payable in one lump
+sum of principal and interest in two years, and be convertible into shares of
+the Company's common stock at $.20 a share, with warrants to purchase an
+additional number of shares equal to the number issued upon conversion.  The
+warrants would be exercisable for one year after conversion of the debentures
+at the exercise price of $.25 a share.  To provide additional working capital,
+the Company also intends within the near future to make a private placement of
+its common stock at approximately $.25 a share to raise the remainder of the
+$500,000 that it seeks.  The Company's long term ability to continue its
+operations is dependent primarily upon income from license fees and
+construction subcontracts for the Arunachal Pradesh project and ability to
+generate operating income from the Company's efforts to diversify into other
+energy related fields.  There are no assurances that these sources of revenues
+will be realized in time or in amount adequate to enable the Company to
+continue its operations as a going concern.
+
+     As discussed under "Results of Operations," the Company had first quarter
+net losses of $165,870 in 1996 and $469,331 in 1995.  The 1995 non-cash
+expenses include the allowance for loss on sale of assets of $230,000, a
+foreign currency translation of $5,155, and depreciation and amortization of
+$81,064.  This compares to no losses recorded on the sale of assets during
+1996, no foreign currency translation during 1996, and a 21% reduction in the
+1996 depreciation expense due to the liquidation of Future Fuels and the write
+off of the associated goodwill.
+
+     Changes in operating assets and liabilities include a $191,537 decrease
+in accounts receivable during 1996 compared to a $19,955 decrease in 1995. 
+This decrease reflects payments received during the first quarter of 1996. 
+Current assets decreased by $3,831 during the first quarter of 1996 compared
+to a $4,231 increase during the first quarter of 1995.  Deposits and other
+assets increased by $6,681 during the first quarter of 1996 compared to a
+decrease of $11,263 during the comparable 1995 quarter.  Billings in excess of
+costs and estimated earnings on uncompleted contracts decreased during the
+first quarter of 1995.  With the termination of the Henan Project and no other
+contracts in place, there are no first quarter 1996 increases or decreases in
+billings in excess of costs and estimated earnings on uncompleted contracts. 
+During the first quarter of 1996 $59,401 cash was provided by operating
+activities compared to a net cash usage of $317,276 for the comparable first
+quarter of 1995.
+
+     There were no investing activities during the first quarters of 1996 or
+1995.
+
+     The Company financed a portion of its activities by net proceeds of
+$50,000 from a private placement of its common stock during the first quarter
+of 1996 compared to none during 1995.  In 1995, the Company paid $275 on its
+capital lease obligation which was terminated through the Future Fuels
+liquidation.  As a result of these activities, the net cash provided by
+financing activities in the first quarter of 1996 was $50,000 compared to a
+cash usage of $275 during the first quarter of 1995.
+
+     Cash increased during the first quarter of 1996 by $109,401 compared to a
+decrease of $317,551 for the first quarter of 1995.  These changes increased
+the ending cash balance to $125,309 at March 31, 1996 from $15,908 at December
+31, 1995.  The first quarter 1995 changes decreased the $890,717 December 31,
+1994 balance to $573,166 at March 31, 1995.<PAGE>
+<PAGE>
+                                                                    <PAGE 13>
+
+                   PART II - OTHER INFORMATION 
+
+Item 1.     Legal Proceedings.  None. 
+
+Item 2.     Change in Securities.  None. 
+
+Item 3.     Defaults Upon Senior Securities.  None. 
+
+Item 4.     Submission of Matters to a Vote of Security Holders.  None.
+
+Item 5.     Other Information.  None. 
+
+Item 6.     Exhibits and Reports on Form 8-K. 
+
+          (a)     Exhibits.  None 
+
+          (b)     Two reports on Form 8-K dated January 15, 1996 and February
+13, 1996 were filed during the quarter ended March 31, 1996 reporting other
+events.
+<PAGE>
+
+<PAGE>
+                                                                   <PAGE 14>
+
+                                         SIGNATURES
+
+     Pursuant to the requirements of the Securities Exchange Act of 1934, the
+Registrant has duly caused this report to be signed on its behalf by the
+undersigned thereunto duly authorized.
+
+                                RENTECH, INC.
+
+
+Dated:  May 13, 1996               (Signature)
+                              ----------------------------------------
+                              Dennis L. Yakobson, President
+
+
+Dated:  May 13, 1996               (Signature)
+                              ----------------------------------------
+                              Ronald C. Butz, Vice President-Legal and
+                              Finance, and Chief Financial Officer
+</TEXT>
+</DOCUMENT>
+<DOCUMENT>
+<TYPE>EX-27
+<SEQUENCE>2
+<DESCRIPTION>FINANCIAL DATA SCHEDULE
+<FLAWED>
+<TEXT>
+WARNING: THE EDGAR SYSTEM ENCOUNTERED ERROR(S) WHILE PROCESSING THIS SCHEDULE.
+
+<TABLE> <S> <C>
+
+<ARTICLE>         5
+<LEGEND>
+This schedule contains summary financial information extracted from the
+Consolidated Balance Sheet at March 31, 1996 (Unaudited) and the Condensed
+Consolidated Statement of Operations for the three Months Ended March 31, 1996
+(Unaudited) and is qualified in its entirety by reference to such financial
+statements.
+</LEGEND>
+<MULTIPLIER>  1
+       
+<S>                          <C>
+<PERIOD-TYPE>                3-MO.
+<FISCAL-YEAR-END>                      DEC-31-1996
+<PERIOD-START>                         JAN-01-1996
+<PERIOD-END>                           MAR-31-1996
+<CASH>                                     150,309
+<SECURITIES>                                     0
+<RECEIVABLES>                               45,974
+<ALLOWANCES>                                     0
+<INVENTORY>                                      0
+<CURRENT-ASSETS>                           196,283
+<PP&E>                                     151,776
+<DEPRECIATION>                             (81,896)
+<TOTAL-ASSETS>                           3,312,109
+<CURRENT-LIABILITIES>                      643,656
+<BONDS>                                          0
+<PREFERRED-MANDATORY>                            0
+<PREFERRED>                                      0
+<COMMON>                                   100,067
+<OTHER-SE>                               2,568,386
+<TOTAL-LIABILITY-AND-EQUITY>             3,312,109
+<SALES>                                          0
+<TOTAL-REVENUES>                           121,981
+<CGS>                                            0
+<TOTAL-COSTS>                                    0
+<OTHER-EXPENSES>                           285,089
+<LOSS-PROVISION>                                 0
+<INTEREST-EXPENSE>                           2,762
+<INCOME-PRETAX>                           (165,870)
+<INCOME-TAX>                                     0
+<INCOME-CONTINUING>                              0
+<DISCONTINUED>                                   0
+<EXTRAORDINARY>                                  0
+<CHANGES>                                        0
+<NET-INCOME>                              (165,870)
+<EPS-PRIMARY>                                (0.02)
+<EPS-DILUTED>                                (0.02)
+        
+
+</TABLE>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>
+-----END PRIVACY-ENHANCED MESSAGE-----

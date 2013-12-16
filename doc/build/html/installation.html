@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Installation &mdash; VSHON 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="VSHON 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="2. Overview of VSCHON Package" href="overview.html" />
+    <link rel="prev" title="Welcome to VSHON’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="2. Overview of VSCHON Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to VSHON’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VSHON 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisite">
+<h2>1.1 Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Python 2.7.6</li>
+<li>Python module: numpy</li>
+<li>Pyhton module: pandas</li>
+<li>Python module: sklearn</li>
+<li>Python module: scipy</li>
+<li>Python module: kdb</li>
+<li>Cython</li>
+<li>KDB</li>
+</ol>
+</div>
+<div class="section" id="vschon-package-intallation">
+<h2>1.2 VSCHON package intallation<a class="headerlink" href="#vschon-package-intallation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Create VSCHON directory in /path/to/desired/VSCHON</li>
+<li>Copy the entire VA_PYTHON directory to /path/to/VSCHON/VA_PYTHON</li>
+<li>Copy the entire VD_KDB directory to /path/to/VSHON/VD_KDB</li>
+<li>Put following lines in .bashrc</li>
+</ol>
+<div class="highlight-python"><pre>export VSCHON=/path/to/VSCHON
+export PYTHONPATH=$PYTHONPATH:$VSCHON/VA_PYTHON
+export PYTHONPATH=$PYTHONPATH:$VSCHON/VD_KDB</pre>
+</div>
+</div>
+<div class="section" id="vschon-data-intallation">
+<h2>1.3 VSCHON DATA intallation<a class="headerlink" href="#vschon-data-intallation" title="Permalink to this headline">¶</a></h2>
+<p>DATA directory is the root directory of all databases. Currently, there are two complete databases in DATA:</p>
+<ol class="arabic simple">
+<li>forex_taqDB: stores the best bid/ask change of 15 major currency pairs from 2009 May to 2013 July.</li>
+<li>Edgar: stores the form10Q/K(Quarterly and annual report to SEC)  of all US stocks from 1993 to 2013.</li>
+<li>All the databases are managed by the &#8220;datamanage&#8221; submodule in VA_PYTHON package. To properly use the database, please:</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Create Data directory in /path/to/Data</li>
+<li>Add following line to .bashrc</li>
+</ol>
+<div class="highlight-python"><pre>export DATA=/path/to/Data</pre>
+</div>
+<ol class="arabic simple" start="3">
+<li>Copy the forex_taqDB and Edgar to DATA.</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Installation</a><ul>
+<li><a class="reference internal" href="#prerequisite">1.1 Prerequisite</a></li>
+<li><a class="reference internal" href="#vschon-package-intallation">1.2 VSCHON package intallation</a></li>
+<li><a class="reference internal" href="#vschon-data-intallation">1.3 VSCHON DATA intallation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to VSHON&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">2. Overview of VSCHON Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="2. Overview of VSCHON Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to VSHON’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">VSHON 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Brandon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

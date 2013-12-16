@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/brandon/VSCHON/VT_CPP/FXCM/source/login/login.h
+string
+-
+
+/home/brandon/VSCHON/VT_CPP/FXCM/source/main.cpp
+cstring
+-
+string
+-
+login/login.h
+/home/brandon/VSCHON/VT_CPP/FXCM/source/login/login.h
+

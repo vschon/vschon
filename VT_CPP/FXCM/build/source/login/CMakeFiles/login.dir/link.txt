@@ -1,0 +1,2 @@
+/usr/bin/ar cr liblogin.a  CMakeFiles/login.dir/login.cpp.o
+/usr/bin/ranlib liblogin.a
