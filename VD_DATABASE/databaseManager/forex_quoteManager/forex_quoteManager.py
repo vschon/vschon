@@ -5,6 +5,9 @@ import datetime as dt
 import ipdb
 import zipfile
 from dateutil.parser import parse
+from dateutil import rrule
+import dateutil
+import nltk
 
 #DATA_ADD = os.getenv('DATA')
 DATA_ADD = '/media/Data/testData'
@@ -41,6 +44,8 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
                            'USDCAD',
                            'USDCHF',
                            'USDJPY']
+        self.br = mechanize.Browser()
+        self.dataURL = 'http://www.truefx.com/dev/data'
 
     def update(self,month = None):
         '''
@@ -60,7 +65,8 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
             update.log: log file to store update information of manager
         '''
 
-        br = mechanize.Browser()
+
+        pass
 
     def checkNew(self):
         '''
@@ -68,18 +74,32 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
 
         Returns
         -------
-        filesToUpdate: list
+        updateList: list
             list of filenames to updated
         '''
 
-        lastMonth = self.summary()
-        if dt.datetime.now().strftime(format = '%Y%m') == lastMonth:
-            print 'All date is up to date'
-            return None
-        else:
-            pass
+        latestLocalMonth = self.summary()
+        latestLocalDate = dt.datetime(day = 1, month = int(latestLocalMonth[-2:]), year = int(latestLocalMonth[:4]))
+        latestLocalDate = latestLocalDate + dateutil.relativedelta.relativedelta(months = 1)
 
-        pass
+        dataHTML = self.br.open(self.dataURL).read()
+        yearList = nltk.clean_html(dataHTML).split('\n')
+        yearList = [int(item[1:5]) for item in yearList if '20' in item]
+        latestYear = max(yearList)
+
+        ipdb.set_trace()
+        yearURL = self.dataURL + '/' + str(latestYear)
+        monthList = nltk.clean_html(self.br.open(yearURL).read()).split('\n')
+        monthList = [month for month in monthList if ('-' + str(latestYear)) in month]
+        latestMonth = len(monthList)
+
+        latestRemoteDate = dt.datetime(day = 1, month = latestMonth, year = latestYear)
+
+        updateList = list(rrule.rrule(rrule.MONTHLY, dtstart = latestLocalDate, until = latestRemoteDate))
+
+        return updateList
+
+
 
 
     def __updateSingle(self, symbol, filedate):
@@ -97,13 +117,12 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
         initialMonth = filedate[5:]
         monthAlpha = parse(filedate + '.01').strftime('%B').upper()
 
-        br = mechanize.Browser()
         filename = symbol + '-' + str(initialYear) + '-' + initialMonth + '.zip'
 
         remoteAdd = 'http://www.truefx.com/dev/data/' + str(initialYear) + '/' + monthAlpha +\
                 '-' + str(initialYear) + '/' + filename
         localAdd = os.path.join(tempAddress, filename)
-        result = br.retrieve(remoteAdd,localAdd)[0]
+        result = self.br.retrieve(remoteAdd,localAdd)[0]
         print result + 'downloaded'
 
         csvAddress = self.__processData(localAdd)
@@ -151,11 +170,6 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
         os.remove(localAddress)
         return csvAddress
 
-
-
-
-
-
     def summary(self):
         '''
         list symbol list and date range of forex_quote database
@@ -163,6 +177,7 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
         Returns
         -------
         lastmonth: string
+            format = '2001.01'
         '''
         sampleAddress = os.path.join(DATA_ADD,'forex_taqDB','EURUSD')
         partxtAddress = os.path.join(DATA_ADD,'forex_taqDB','forex_taq','par.txt')
@@ -188,15 +203,6 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
 
         print '\n\nLast Month is ' + lastMonth
         return lastMonth
-
-
-
-
-
-
-
-
-        pass
 
     def loadPrice(self, symbol, beginDate, endDate = None):
         '''
