@@ -29,24 +29,24 @@ ptrunk:{[forexdb_addr_;x];
  }
 
 
-data_addr:":",getenv `DATA;
+data_addr:":/media/Data/testData"
+/ ,getenv `DATA;
 forexdb_addr:data_addr,"/forex_taqDB";
 forex_addr:forexdb_addr,"/forex_taq";
 partxt_addr:forex_addr,"/par.txt";
 
 parlist:`char$();
 
-filedate:2009.05m;
-symbolc:"USDJPY";
-do[52;
-   file_addr:data_addr,"/forex_temp/",symbolc,((string filedate) _ 4),".csv";
 
-   .Q.fs[{parlist::distinct parlist,ptrunk[forexdb_addr;x]}] `$file_addr; 
-   if[0~count key `$partxt_addr;(`$partxt_addr) 0: asc parlist;];
-   if[1~count key `$partxt_addr;
-    parsymlist:read0 `$partxt_addr;
-    parlist:asc distinct parsymlist,parlist;
-    (`$partxt_addr) 0: parlist;];
-   0N!filedate:filedate+1;
-   ];
+filedate:"M"$(.z.x[0]);
+symbolc:.z.x[1];
+file_addr:":/media/Data/testData/temp/",symbolc,((string filedate) _ 4),".csv";
 
+.Q.fs[{parlist::distinct parlist,ptrunk[forexdb_addr;x]}] `$file_addr; 
+if[0~count key `$partxt_addr;(`$partxt_addr) 0: asc parlist;];
+if[1~count key `$partxt_addr;
+   parsymlist:read0 `$partxt_addr;
+   parlist:asc distinct parsymlist,parlist;
+   (`$partxt_addr) 0: parlist;];
+
+\\

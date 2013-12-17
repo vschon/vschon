@@ -24,7 +24,7 @@
 
    export VSCHON=/path/to/VSCHON
    export PYTHONPATH=$PYTHONPATH:$VSCHON/VA_PYTHON
-   export PYTHONPATH=$PYTHONPATH:$VSCHON/VD_KDB
+   export PYTHONPATH=$PYTHONPATH:$VSCHON/VD_DATABASE
 
 1.3 VSCHON DATA intallation
 ===========================

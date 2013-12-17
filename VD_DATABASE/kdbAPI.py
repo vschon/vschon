@@ -1,4 +1,4 @@
-import q
+#import q
 import kdb
 from collections import OrderedDict
 import pandas as pd
@@ -8,6 +8,16 @@ import ipdb
 def kdblogin(port=5000):
     '''
     shortcut to connect to q server
+
+    Parameters
+    ----------
+    port: int
+        the port number of Q process
+
+    Returns
+    -------
+    object:
+        the object to connect to Q process
     '''
     return kdb.q("localhost",port,"")
 
@@ -25,7 +35,7 @@ def qtable2df(qtable):
 
     return pd.DataFrame(interdict)
 
-class dataloader():
+class dataloader(object):
     '''
     Data loader for KDB
     '''
@@ -36,20 +46,20 @@ class dataloader():
         '''
         self.conn = kdblogin()
 
-    def load(self,command):
+    def qload(self,command):
 
         '''
         load data from different database and return as pd time series
         field is a list of required fields
 
-        **Parameters**
+        Parameters
+        ----------
+        command : string
+            Q-sql command send to kdb database
 
-        **command : string**
-            command send to kdb database
-
-        **Returns**
-
-        **result : DataFrame**
+        Returns
+        -------
+        result : DataFrame
             Data received from KDB
         '''
 
@@ -59,22 +69,28 @@ class dataloader():
 
         return result
 
-    def tickerload(self,source,symbol,begindate,enddate = None):
+    def qDirective(self, directive):
+        '''
+        Execute q directive in Q process
+        '''
+        self.conn.k(directive)
+
+    def tickerload(self,source,symbol,beginDate,endDate = None):
         '''
         load corresponding data as df
         '''
 
-        if enddate == None:
-            enddate = begindate
+        if endDate == None:
+            endDate = beginDate
 
-        range = '(' + begindate + ';' + enddate + ')'
+        range = '(' + beginDate + ';' + endDate + ')'
 
         if source != symbol:
             command = 'select from ' + source + ' where date within ' + range + ',symbol = `' + symbol.upper()
         else:
             command = 'select from ' + source + ' where date within ' + range
 
-        return self.load(command)
+        return self.qload(command)
 
 
 

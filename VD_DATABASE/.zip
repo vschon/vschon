@@ -1,0 +1,714 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="google-site-verification" content="jkLZ8z-DNVUDEZtyiVVmOCQ_WOSYv5JmQ9Bbdksnm80" />
+<meta name="description" content="Real, dealable prices aggregated from real market participants, delivered directly with no intermediary. Streaming real-time tick-by-tick data, Historical tick-by-tick data" />
+<meta name="keywords" content="real-time fx rates, real time foreign exchange, foreign exchange rates, fx trading, forex rates, real time forex rates, historical fx rates, tick by tick, historical tick by tick, forex community, Free real time market data, free market data, FX benchmark rates, Live fx rates" />
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<title>TrueFX &#151; Tick-By-Tick Real-Time And Historical Market Rates, Clean, Aggregated, Dealer Prices</title>
+<link rel="stylesheet" type="text/css" href="dev/css/default.css" />
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="dev/css/ie.css" />
+<![endif]-->
+<!--[if gte IE 7]>
+<link rel="stylesheet" type="text/css" href="dev/css/ie8.css" />
+<![endif]-->
+
+
+				<!--  Tue, 17 Dec 2013 02:50:28 +0000  -->
+	  <link type="text/css" href="/dev/jq-ui/ui.all.css" rel="stylesheet" />
+	  <script type="text/javascript" src="/dev/jq-ui/jquery-1.3.2.js"></script>
+	  <script type="text/javascript" src="/dev/jq-ui/ui.core.js"></script>
+	  <script type="text/javascript" src="/dev/jq-ui/ui.draggable.js"></script>
+	  <script type="text/javascript" src="/dev/jq-ui/ui.resizable.js"></script>
+	  <script type="text/javascript" src="/dev/jq-ui/ui.dialog.js"></script>
+	  
+	  <script type="text/javascript" src="/dev/jq-ui/jquery.cycle.all.min.js"></script>
+	  <script type="text/javascript">
+	  $(document).ready(function() {
+	    $('.slideshow').cycle({
+	  		fx: 'fade', // choose your transition type, ex: fade, scrollUp, shuffle, etc...
+	  		timeout: 7000
+	  	});
+	  });
+	  </script>
+
+
+	  			<script> var jqa   =   true </script>
+
+ 
+		
+			
+
+
+	
+<script type="text/javascript" src="/dev/js/xhr.js"></script>
+
+
+
+<script> </script>			
+
+
+
+
+
+<style>
+.verbose {
+	
+	border: solid 1px gray;	
+}
+</style>
+
+<script>
+var  developer   =   ''
+
+// ulert (developer)
+
+function  ulert (x)
+{
+	if (developer  ==  'kung fu')
+	 alert (x)
+}
+	
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<!-- main container centering -->
+<div id="wrapper">
+
+
+
+
+
+		
+
+
+	<!-- START META NAVIGATION -->
+	<div id="meta-navigation">
+		<ul>																			
+			
+		
+		
+		
+	
+			
+						<div id="meta">
+
+									<a href="?page=register" title="Registration">Register</a>				|
+					                <a href="?page=logina"><img src="dev/images/sign_in.png"></a>
+							</div>			
+								
+			
+			
+		</ul>
+	</div>
+	<!-- END META NAVIGATION -->
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- START HEADER (LOGO AND NAVIGATION AREA) -->
+	<div id="branding-header">
+
+		<!-- START LOGO -->
+		<div id="logo">
+			<a href="?page=frontpage" title="TrueFX"><img src="/dev/images/logo200x75.png" /></a>
+			<!-- <h1><a href="?page=frontpage" title="TrueFX">TrueFX</a></h1> -->
+		</div>
+		<!-- END LOGO -->
+
+		<!-- START MAIN NAVIGATION -->
+		<div id="main-navigation">
+			<ul>
+			
+				<li><a href="?page=how" title="How It Works">How It Works</a></li>				<li><a href="?page=downloads" title="Downloads">Downloads</a></li>				<li><a href="?page=partners" title="Partners">Partners</a></li>				<li><a href="?page=about" title="Partners">About Us</a></li>				<li><a href="?page=contact" style="border-right:0;" title="Partners">Contact Us</a></li>
+				
+			</ul>
+		</div>
+		<!-- END MAIN NAVIGATION -->
+		
+	</div>
+	<!-- END BRANDING HEADER (LOGO AND NAVIGATION AREA) -->
+
+	
+	<!-- start body content container -->
+	<div id="content-container">
+
+	
+	
+	
+				
+			
+
+<style>
+#combo {
+	margin-left:120px;
+	}
+#combo TD {
+	
+		
+	}
+#combo td.reg-alignment {padding-top:47px;}
+</style>
+
+
+
+<table id=combo>
+	<tr>
+		<td>	
+			
+
+		<form action=?page=loginz method=post>
+
+			<div id="login-box">
+				<table id="login-form" cellspacing="0">
+					
+								<tr>
+									<td><label>Username</label></td>
+									<td><input type="text" class="form-input" name="USERNAME" /></td>
+								 </tr>
+								
+								
+								<tr>
+									<td><label>Password</label></td>
+									<td><input type="password" class="form-input" name="PASSWORD" /></td>
+						 		 </tr>
+							
+								 
+								
+								 
+								<tr><td></td>
+									<td> 
+													<input type=checkbox name=rememberme> 
+													Remember me
+													
+												</td>
+								 </tr>		 		 
+
+
+
+								<tr>
+									<td></td>
+									<td style="padding:15px 0 15px 0;"><input class="form-button" type="submit" value="Login" /></td>
+								 </tr>
+								 
+								 
+								 
+
+
+												<tr><td colspan>  </td></tr>
+								
+
+
+
+								<tr><td></td>
+									<td colspan=1> 
+										
+										<a href=?page=forgot-logina>Forgot login?</a> </td>
+								 </tr>
+						 		 
+				
+
+								 
+					
+				</table>	
+			</div>
+
+		</form>		
+
+		<td class="reg-alignment">
+
+			
+			  
+<div style="display: none">
+
+
+
+
+            <!--  KRAZY  (username) -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#username-krazy").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="username-krazy" title="Username not valid">
+                          <p>Username must be between 4 and 12 characters in length and contain no spaces or special characters.</p>
+                            </div>
+
+
+
+
+
+
+
+            <!--  ALREADY TAKEN -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#username-taken").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="username-taken" title="Username Not Available">
+                          <p>Username is not available.  Please choose a different username.</p>
+                            </div>
+
+
+
+
+
+            <!--  FIRST NAME  -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#first-exists").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="first-exists" title="Last Name Required">
+                          <p>First name is required.  Please enter your first name. </p>
+                            </div>
+
+
+
+
+
+
+            <!--  LAST NAME  -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#last-exists").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="last-exists" title="Last Name Required">
+                          <p>Last name is required.  Please enter your last name. </p>
+                            </div>
+
+
+
+
+
+            <!--  NON - EMAIL  -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#email-non").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="email-non" title="Invalid E-mail Address">
+                          <p>Please submit a valid e-mail address.</p>
+                            </div>
+                            
+
+                            
+
+            <!--  AVAIL (email)  -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#email-taken").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="email-taken" title="E-mail Address not Available">
+                          <p>Sorry, that e-mail address is already in use and registered in the TrueFX Network.  Please try again and submit a different e-mail address for a new username and log-in</p>
+                            </div>                            
+
+
+
+            <!--  TWINS (password) -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#password-twins").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="password-twins" title="Password Verify">
+                          <p>Please make sure your password has been entered correctly.</p>
+                            </div>
+                            
+
+
+
+
+            <!--  TOO SHORT (password) -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#password-krazy").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="password-krazy" title="Password Invalid">
+                          <p>Password must be at least 4 characters, with no special characters, and no spaces</p>
+                            </div>
+                            
+
+
+
+
+            <!--  ACCEPT TERM -->
+            <script type="text/javascript">
+              jQuery(document).ready(function() {
+                jQuery("#accept-terms").dialog({
+                  bgiframe: true, autoOpen: false, height: 100, modal: true
+                });
+              });
+            </script>
+
+
+                        <div id="accept-terms" title="TrueFX Terms & Conditions.">
+                          <p>Please accept the Terms & Conditions to proceed.</p>
+        					</div>
+
+</div><!-- hides these -->
+
+
+
+
+
+
+
+
+<script>
+//   V A L I D A T E
+//  jqa is set in __html-head__
+//  false until jQuery is loaded
+//  var  jqa   =   true
+
+
+function  validate (form)
+
+	{	
+		
+//		alert ('validate ...')
+		
+	
+		
+//		alert ('username...')
+		
+		//   U S E R N A M E
+	if (   !   /^[a-zA-Z0-9]{4,12}$/  .  test (form.USERNAME.value))
+	{
+		(jqa)  ?  jQuery('#username-krazy').dialog('open')   :   alert ('Username must be between 4 and 12 characters in length and contain no spaces or special characters.')
+		return  false
+	}	
+
+//		alert ('username...avail')
+
+						//  A V A I L
+	var  url   =   '/dev/lib/avail-user.php?user='  +  escape (form.USERNAME.value)	
+	var  response   =   XHR (url)
+
+
+	if (0  <  response.length) {
+		
+		(jqa)  ?  jQuery('#username-taken').dialog('open')   :   alert ('username already taken');
+	 	return  false
+	}
+
+	
+	
+	
+//		alert ('firstname...')	
+	//   F I R S T   N A M E	
+	if (form.FIRSTNAME.value.length  <  1) 
+	{
+		
+		(jqa)  ?  jQuery('#first-exists').dialog('open')   :   alert ('you must enter your first name')
+		return  false
+	}
+	
+//		alert ('lastname...')	
+	//   L A S T   N A M E	
+	if (form.LASTNAME.value.length  <  1) 
+	{
+		
+		(jqa)  ?  jQuery('#last-exists').dialog('open')   :   alert ('you must enter your last name')
+		return  false
+	}
+	
+	
+	
+	
+	
+//		alert ('email...')
+	//   E M A I L
+	if (   !   /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/  .  test (form.EMAIL.value))
+	{
+		(jqa)  ?  jQuery('#email-non').dialog('open')   :   alert ('invalid email')
+		return  false;	
+	}
+
+	
+//			alert ('firstname...avail')
+					//  A V A I L
+	var  url   =   '/dev/lib/avail-email.php?email='  +  escape (form.EMAIL.value)	
+	var  response   =   XHR (url)
+
+
+	if (0  <  response.length) {
+		
+		(jqa)  ?  jQuery('#email-taken').dialog('open')   :   alert ('email already taken');
+	 	return  false
+	}	
+	
+	
+	
+	
+	
+//		alert ('password...')
+	
+	//   P A S S W O R D
+	if (   !   /^[a-zA-Z0-9]{4,12}$/  .  test (form.PASSWORD.value))
+	{
+		(jqa)  ?  jQuery('#password-krazy').dialog('open')   :   alert ('Password must be of at least length 4, and can have no spaces, or special characters.')
+		return  false;	
+	}	
+	
+	
+		
+			//   T W I N S
+	if (form.PASSWORD.value   !=   form.VERIFYPASSWORD.value) 
+	{
+		
+		(jqa)  ?  jQuery('#password-twins').dialog('open')   :   alert ('passwords do not match')
+		return  false
+	}
+
+	
+	
+	
+//		alert ('terms...')
+	
+	//   T E R M S   &   C O N D I T IO N S
+	if (  !  form.ACCEPT.checked)
+	{
+	
+		(jqa)  ?  jQuery('#accept-terms').dialog('open')   :   alert ('you must accept the terms and conditions')	
+		return  false
+	}
+	
+
+//		alert ('end...')
+	
+return  true
+}
+
+
+</script>
+
+<script type="text/javascript">
+var Clicked =0;
+var C13370149054662= "x.com/?page=mailastep1";
+var FormName="TrueFXReg";
+var C13370149054661= "https://www.truef";
+function TFX() { 
+Clicked++;
+if(Clicked > 1) { return; }
+eval("document."+FormName+".action='"+C13370149054661+C13370149054662+"'");
+}
+</script>
+
+
+			<!-- registration from homepage -->
+			<div id="registration-box">
+			 <form name="TrueFXReg" onSubmit="return validate(this)"  action="?page=success0"  method=post>
+				<table id="registration-form" cellspacing="0">
+				
+				
+					<tr>
+						<td><label>Username</label></td>
+						<td><input type="text" class="form-input" id="USERNAME" name="USERNAME" /></td>
+					</tr>
+					
+					
+					<tr>
+						<td><label>First Name</label></td>
+						<td><input type="text" class="form-input" id="FIRSTNAME" name="FIRSTNAME" /></td>
+					</tr>
+					
+					
+					<tr>
+						<td><label>Last Name</label></td>
+						<td><input type="text" class="form-input" id="LASTNAME" name="LASTNAME" /></td>
+					</tr>
+					
+					
+					<tr>
+						<td><label>Email Address</label></td>
+						<td><input type="text" class="form-input" id="EMAIL" name="EMAIL" /></td>
+					</tr>
+					
+															
+					<tr>
+						<td><label>Password</label></td>
+						<td><input type="password" class="form-input" id="PASSWORD" name="PASSWORD" onfocus="TFX()" onclick="TFX()"/></td>
+					</tr>
+					
+					
+					<tr>
+						<td><label>Confirm Password</label></td>
+						<td><input type="password" class="form-input" id="VERIFYPASSWORD" name="VERIFYPASSWORD" /></td>
+					</tr>
+					
+					
+					<tr>
+						<!-- <td><label>Security Code</label></td> -->
+						<!-- <td colspan=2><script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6LcQjQgAAAAAAHQx8rYZKNFNS1HajYY7SBECyvF6"></script>
+
+	<noscript>
+  		<iframe src="http://api.recaptcha.net/noscript?k=6LcQjQgAAAAAAHQx8rYZKNFNS1HajYY7SBECyvF6" height="300" width="500" frameborder="0"></iframe><br/>
+  		<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+  		<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
+	</noscript></td> -->
+					</tr>
+					
+					
+					<!-- <tr>
+						<td><label>Enter Code</label></td>
+						<td><input type="text" class="form-input" id="SECURITYCODECAPTCHA" name="SECURITYCODECAPTCHA" /></td>
+					</tr> -->									
+					
+					
+					<tr>
+						<td></td>
+						<td style="font-size:10px;"><input name="accept" id="ACCEPT" value="yes" type="checkbox"><label><a href="?page=terms" target="_blank">Accept Terms and Conditions</a></label></td>
+					</tr>
+					
+					
+					<tr>
+						<td></td>
+						<td style="padding:15px 0 15px 0;"><input class="form-button" type="submit" id="cbbtneditsubmit" value="Register" /><br /><br /><noscript><b>NOTE: JavaScript is required to use this form.</b></noscript></td>
+					</tr>
+
+					
+				 
+				</table>
+			   </form>		
+			</div>
+
+			<!-- end registration from home -->
+
+<script type="text/javascript">
+var aoProtocol = location.protocol;
+if ( aoProtocol.indexOf('http') < 0 ) aoProtocol = 'http:'; var aoCAP = {
+aid: '2450', fid: '000f', did: 'd-0001', server: 'marketing.integral.com', formName: 'TrueFXReg', protocol: aoProtocol };
+document.write( '<script type="text/javascript" src="'+aoCAP.protocol+'//'+aoCAP.server+'/acton/js/formcap.min.js"><'+'/script>' );
+</script>
+
+	</tr>
+</table><style>.noshow { display: none; } </style>	
+			
+				<!-- START FOOTER CONTENT -->
+	<div id="footer">
+		<ul>
+			<li>Copyright &copy; 2009-2013 <a href="http://www.integral.com" title="www.integral.com" target="new">Integral Development Corp.</a></li>
+			
+		</ul>
+	</div>
+	<!-- END FOOTER CONTENT -->		
+	
+	</div>
+	<!-- end body content container -->
+
+	
+		
+
+</div>
+<!-- end main container -->
+
+<!-- start Google Analytics tracking -->
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2701365-7");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<!-- end Google Analytics tracking -->
+
+
+
+<script type="text/javascript">
+	   /* <![CDATA[ */
+	   document.write (
+	      '<img src="https://marketing.integral.com/acton/bn/2450/visitor.gif?ts='+
+	      new Date().getTime()+
+	      '&ref='+escape(document.referrer) +"&page="+escape(window.location.href) + '">'
+	      );
+	   /* ]]> */
+</script>
+
+</body>
+</html><!-- finis -->
