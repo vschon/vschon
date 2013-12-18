@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vd.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager &mdash; VSCHON API Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="VSCHON API Documentation 1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">VSCHON API Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="vd-databasemanager-forex-quotemanager-forex-quotemanager-forex-quotemanager">
+<span id="id1"></span><h1>vd.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager<a class="headerlink" href="#vd-databasemanager-forex-quotemanager-forex-quotemanager-forex-quotemanager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager">
+<em class="property">class </em><tt class="descclassname">VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.</tt><tt class="descname">forex_quoteManager</tt><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage the database forex_quote</p>
+<dl class="method">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.InitializeDatabase">
+<tt class="descname">InitializeDatabase</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager.InitializeDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.InitializeDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize database, only used in the first time</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.checkNew">
+<tt class="descname">checkNew</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager.checkNew"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.checkNew" title="Permalink to this definition">¶</a></dt>
+<dd><p>check for new data on TrueFX</p>
+<dl class="docutils">
+<dt>updateList: list</dt>
+<dd>list of filenames to updated</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.loadPrice">
+<tt class="descname">loadPrice</tt><big>(</big><em>symbol</em>, <em>beginDate</em>, <em>endDate=None</em><big>)</big><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager.loadPrice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.loadPrice" title="Permalink to this definition">¶</a></dt>
+<dd><p>load price from KDB into memory</p>
+<dl class="docutils">
+<dt>symbol: string</dt>
+<dd>uppercase of the symbol name</dd>
+<dt>beginDate: string</dt>
+<dd>format: &#8216;2000.01.01&#8217;</dd>
+<dt>endDate: string, optional</dt>
+<dd>if not specified, then endDate = beginDate</dd>
+</dl>
+<p>price: DataFrame</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.summary">
+<tt class="descname">summary</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>list symbol list and date range of forex_quote database</p>
+<dl class="docutils">
+<dt>lastmonth: string</dt>
+<dd>format = &#8216;2001.01&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.update">
+<tt class="descname">update</tt><big>(</big><em>month=None</em><big>)</big><a class="reference internal" href="../../_modules/VD_DATABASE/databaseManager/forex_quoteManager/forex_quoteManager.html#forex_quoteManager.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>update forex_quote database</p>
+<dl class="docutils">
+<dt>month: string, optional</dt>
+<dd>the month of data to be updated
+if month == None, then manager will check if there is new data in
+TrueFX and update accordingly;
+if monthe = &#8216;2000.08&#8217;, then manger will look up for the data in TrueFX
+and update the data of the month</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/vd/databaseManager/forex_quoteManager.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">VSCHON API Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Brandon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

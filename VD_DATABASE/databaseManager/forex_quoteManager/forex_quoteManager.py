@@ -60,13 +60,17 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
             if monthe = '2000.08', then manger will look up for the data in TrueFX
             and update the data of the month
 
-        Output
-        ------
-            update.log: log file to store update information of manager
         '''
 
+        if month != None:
+            updateList = [parse((month + '.01')),]
+        else:
+            updateList = self.checkNew()
 
-        pass
+        for filedate in updateList:
+            month = filedate.strftime(format = '%Y.%m')
+            for symbol in self.symbolList:
+                self.__updateSingle(symbol, month)
 
     def checkNew(self):
         '''
@@ -87,7 +91,6 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
         yearList = [int(item[1:5]) for item in yearList if '20' in item]
         latestYear = max(yearList)
 
-        ipdb.set_trace()
         yearURL = self.dataURL + '/' + str(latestYear)
         monthList = nltk.clean_html(self.br.open(yearURL).read()).split('\n')
         monthList = [month for month in monthList if ('-' + str(latestYear)) in month]
@@ -96,6 +99,15 @@ class forex_quoteManager(vd.kdbAPI.dataloader):
         latestRemoteDate = dt.datetime(day = 1, month = latestMonth, year = latestYear)
 
         updateList = list(rrule.rrule(rrule.MONTHLY, dtstart = latestLocalDate, until = latestRemoteDate))
+
+        print 'The following months needs updated:\n'
+        i = 1
+        for month in updateList:
+            print month.strftime(format = '%Y.%m') + '  ',
+            if i % 5 == 0:
+                print '\n',
+            i += 1
+        print '\n'
 
         return updateList
 

@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager &mdash; VSCHON API Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="VSCHON API Documentation 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../../../index.html">VSCHON API Documentation 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">VD_DATABASE</span> <span class="kn">as</span> <span class="nn">vd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">mechanize</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="kn">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">ipdb</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">rrule</span>
+<span class="kn">import</span> <span class="nn">dateutil</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+
+<span class="c">#DATA_ADD = os.getenv(&#39;DATA&#39;)</span>
+<span class="n">DATA_ADD</span> <span class="o">=</span> <span class="s">&#39;/media/Data/testData&#39;</span>
+<span class="n">tempAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_ADD</span><span class="p">,</span> <span class="s">&#39;temp&#39;</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="forex_quoteManager"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager">[docs]</a><span class="k">class</span> <span class="nc">forex_quoteManager</span><span class="p">(</span><span class="n">vd</span><span class="o">.</span><span class="n">kdbAPI</span><span class="o">.</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Manage the database forex_quote</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vd</span><span class="o">.</span><span class="n">kdbAPI</span><span class="o">.</span><span class="n">dataloader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forex_quoteAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_ADD</span><span class="p">,</span><span class="s">&#39;forex_taqDB&#39;</span><span class="p">,</span><span class="s">&#39;forex_taq&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qDirective</span><span class="p">(</span><span class="s">&#39;\l &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">forex_quoteAddress</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Warning, Database is not populated yet!&#39;</span>
+            <span class="k">print</span> <span class="s">&#39;Please execute InitialzeDatabase() method before using other functions&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populateKDBAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span><span class="s">&#39;populate_forex_quote.q&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbolList</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;AUDJPY&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;AUDNZD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;AUDUSD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;CADJPY&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;CHFJPY&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;EURCHF&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;EURGBP&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;EURJPY&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;EURUSD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;GBPJPY&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;GBPUSD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;NZDUSD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;USDCAD&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;USDCHF&#39;</span><span class="p">,</span>
+                           <span class="s">&#39;USDJPY&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">br</span> <span class="o">=</span> <span class="n">mechanize</span><span class="o">.</span><span class="n">Browser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataURL</span> <span class="o">=</span> <span class="s">&#39;http://www.truefx.com/dev/data&#39;</span>
+
+<div class="viewcode-block" id="forex_quoteManager.update"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">month</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        update forex_quote database</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        month: string, optional</span>
+<span class="sd">            the month of data to be updated</span>
+<span class="sd">            if month == None, then manager will check if there is new data in</span>
+<span class="sd">            TrueFX and update accordingly;</span>
+<span class="sd">            if monthe = &#39;2000.08&#39;, then manger will look up for the data in TrueFX</span>
+<span class="sd">            and update the data of the month</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">month</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">updateList</span> <span class="o">=</span> <span class="p">[</span><span class="n">parse</span><span class="p">((</span><span class="n">month</span> <span class="o">+</span> <span class="s">&#39;.01&#39;</span><span class="p">)),]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">updateList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkNew</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">filedate</span> <span class="ow">in</span> <span class="n">updateList</span><span class="p">:</span>
+            <span class="n">month</span> <span class="o">=</span> <span class="n">filedate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">format</span> <span class="o">=</span> <span class="s">&#39;%Y.%m&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbolList</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__updateSingle</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">month</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="forex_quoteManager.checkNew"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.checkNew">[docs]</a>    <span class="k">def</span> <span class="nf">checkNew</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        check for new data on TrueFX</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        updateList: list</span>
+<span class="sd">            list of filenames to updated</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">latestLocalMonth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+        <span class="n">latestLocalDate</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">day</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">latestLocalMonth</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]),</span> <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">latestLocalMonth</span><span class="p">[:</span><span class="mi">4</span><span class="p">]))</span>
+        <span class="n">latestLocalDate</span> <span class="o">=</span> <span class="n">latestLocalDate</span> <span class="o">+</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">months</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">dataHTML</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataURL</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">yearList</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">clean_html</span><span class="p">(</span><span class="n">dataHTML</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">yearList</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">yearList</span> <span class="k">if</span> <span class="s">&#39;20&#39;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">]</span>
+        <span class="n">latestYear</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">yearList</span><span class="p">)</span>
+
+        <span class="n">yearURL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataURL</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">latestYear</span><span class="p">)</span>
+        <span class="n">monthList</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">clean_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">yearURL</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">monthList</span> <span class="o">=</span> <span class="p">[</span><span class="n">month</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">monthList</span> <span class="k">if</span> <span class="p">(</span><span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">latestYear</span><span class="p">))</span> <span class="ow">in</span> <span class="n">month</span><span class="p">]</span>
+        <span class="n">latestMonth</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">monthList</span><span class="p">)</span>
+
+        <span class="n">latestRemoteDate</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">day</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="n">latestMonth</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">latestYear</span><span class="p">)</span>
+
+        <span class="n">updateList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rrule</span><span class="o">.</span><span class="n">rrule</span><span class="p">(</span><span class="n">rrule</span><span class="o">.</span><span class="n">MONTHLY</span><span class="p">,</span> <span class="n">dtstart</span> <span class="o">=</span> <span class="n">latestLocalDate</span><span class="p">,</span> <span class="n">until</span> <span class="o">=</span> <span class="n">latestRemoteDate</span><span class="p">))</span>
+
+        <span class="k">print</span> <span class="s">&#39;The following months needs updated:</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">updateList</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">month</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">format</span> <span class="o">=</span> <span class="s">&#39;%Y.%m&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span><span class="p">,</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+
+        <span class="k">return</span> <span class="n">updateList</span>
+
+
+
+</div>
+    <span class="k">def</span> <span class="nf">__updateSingle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">filedate</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        download corresponding file, and populate it into the database</span>
+
+<span class="sd">        Parameter</span>
+<span class="sd">        ---------</span>
+<span class="sd">        symbol: string</span>
+<span class="sd">        filedate: string</span>
+<span class="sd">            in format &#39;2000.01&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">initialYear</span> <span class="o">=</span> <span class="n">filedate</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">initialMonth</span> <span class="o">=</span> <span class="n">filedate</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+        <span class="n">monthAlpha</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">filedate</span> <span class="o">+</span> <span class="s">&#39;.01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%B&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">symbol</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">initialYear</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">initialMonth</span> <span class="o">+</span> <span class="s">&#39;.zip&#39;</span>
+
+        <span class="n">remoteAdd</span> <span class="o">=</span> <span class="s">&#39;http://www.truefx.com/dev/data/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">initialYear</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">monthAlpha</span> <span class="o">+</span>\
+                <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">initialYear</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span>
+        <span class="n">localAdd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempAddress</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">br</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">remoteAdd</span><span class="p">,</span><span class="n">localAdd</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">result</span> <span class="o">+</span> <span class="s">&#39;downloaded&#39;</span>
+
+        <span class="n">csvAddress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__processData</span><span class="p">(</span><span class="n">localAdd</span><span class="p">)</span>
+
+        <span class="n">filedate</span> <span class="o">=</span> <span class="s">&#39;2009.05&#39;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="s">&#39;q &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">populateKDBAddress</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">filedate</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">symbol</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">csvAddress</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="forex_quoteManager.InitializeDatabase"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.InitializeDatabase">[docs]</a>    <span class="k">def</span> <span class="nf">InitializeDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize database, only used in the first time</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tempAddress</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tempAddress</span><span class="p">)</span>
+        <span class="n">filedate</span> <span class="o">=</span> <span class="s">&#39;2009.05&#39;</span>
+        <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbolList</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__updateSingle</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">filedate</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__processData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">localAddress</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameter</span>
+<span class="sd">        ---------</span>
+<span class="sd">        localAddress: string</span>
+<span class="sd">            path to the target file</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        csvAddress: string</span>
+<span class="sd">            path to the generated csv file</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">csvAddress</span> <span class="o">=</span> <span class="n">localAddress</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;zip&#39;</span><span class="p">,</span><span class="s">&#39;csv&#39;</span><span class="p">)</span>
+        <span class="n">csvAddress</span> <span class="o">=</span> <span class="n">csvAddress</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">fzip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">localAddress</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fzip</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">fzip</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">fzip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csvAddress</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+            <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">localAddress</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">csvAddress</span>
+
+<div class="viewcode-block" id="forex_quoteManager.summary"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        list symbol list and date range of forex_quote database</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        lastmonth: string</span>
+<span class="sd">            format = &#39;2001.01&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">sampleAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_ADD</span><span class="p">,</span><span class="s">&#39;forex_taqDB&#39;</span><span class="p">,</span><span class="s">&#39;EURUSD&#39;</span><span class="p">)</span>
+        <span class="n">partxtAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_ADD</span><span class="p">,</span><span class="s">&#39;forex_taqDB&#39;</span><span class="p">,</span><span class="s">&#39;forex_taq&#39;</span><span class="p">,</span><span class="s">&#39;par.txt&#39;</span><span class="p">)</span>
+        <span class="n">date_range</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">sampleAddress</span><span class="p">))</span>
+        <span class="n">month_range</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">x</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">date_range</span><span class="p">]))</span>
+        <span class="n">lastMonth</span> <span class="o">=</span> <span class="n">month_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">symbol_range</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">partxtAddress</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">symbol_range</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">print</span> <span class="s">&#39;All symbols include:&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">symbol_range</span><span class="p">)):</span>
+            <span class="k">print</span> <span class="n">symbol_range</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span><span class="p">,</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39; &#39;</span>
+
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">Month ranges include:&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">month_range</span><span class="p">)):</span>
+            <span class="k">print</span> <span class="n">month_range</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="k">if</span> <span class="n">month_range</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;12&#39;</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;&#39;</span>
+
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">Last Month is &#39;</span> <span class="o">+</span> <span class="n">lastMonth</span>
+        <span class="k">return</span> <span class="n">lastMonth</span>
+</div>
+<div class="viewcode-block" id="forex_quoteManager.loadPrice"><a class="viewcode-back" href="../../../../vd/databaseManager/forex_quoteManager.html#VD_DATABASE.databaseManager.forex_quoteManager.forex_quoteManager.forex_quoteManager.loadPrice">[docs]</a>    <span class="k">def</span> <span class="nf">loadPrice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">beginDate</span><span class="p">,</span> <span class="n">endDate</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        load price from KDB into memory</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        symbol: string</span>
+<span class="sd">            uppercase of the symbol name</span>
+<span class="sd">        beginDate: string</span>
+<span class="sd">            format: &#39;2000.01.01&#39;</span>
+<span class="sd">        endDate: string, optional</span>
+<span class="sd">            if not specified, then endDate = beginDate</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        price: DataFrame</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tickerload</span><span class="p">(</span><span class="n">source</span> <span class="o">=</span> <span class="s">&#39;forex_quote&#39;</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">beginDate</span> <span class="o">=</span> <span class="n">beginDate</span><span class="p">,</span> <span class="n">endDate</span> <span class="o">=</span> <span class="n">endDate</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../../../index.html">VSCHON API Documentation 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Brandon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>
