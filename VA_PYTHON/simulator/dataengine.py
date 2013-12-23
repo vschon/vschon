@@ -11,10 +11,10 @@ from dateutil.parser import parse
 import types
 import ipdb
 
-forex_quote_source = set('AUDJPY','AUDNZD','AUDUSD','CADJPY',
+forex_quote_source = set(('AUDJPY','AUDNZD','AUDUSD','CADJPY',
                          'CHFJPY','EURCHF','EURGBP','EURJPY',
                          'EURUSD','GBPJPY','GBPUSD','NZDUSD',
-                         'USDCAD','USDCHF','USDJPY')
+                         'USDCAD','USDCHF','USDJPY'))
 class simDataLoader():
 
     def __init__(self):
@@ -131,6 +131,11 @@ class dataEngine(object):
         index = self.symbol_index_pair[order.symbol]
         trade = self.dataCells[index].orderMatcher.match(order, self.dataCells[index].data)
         return trade
+
+    def queryPrice(self, symbol, timestamp):
+
+        index = self.symbol_index_pair[symbol]
+        return self.dataCells[index].orderMatcher.singlePrice(timestamp, symbol, self.dataCells[index].data)
 
 
 

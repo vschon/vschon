@@ -82,9 +82,8 @@ class hawkesTrader(trader):
         update state
         '''
 
-        #ipdb.set_trace()
+        value = self.simulator.dataEngine.getPoint(self.symbols[0], self.now)
 
-        value = self.simulator.dataCells[0].getPoint(self.now)
         if value['state'] == 'SUCCESS':
             point = value['data']
             price = (point['bid'] + point['ask']) / 2.0
