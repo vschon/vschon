@@ -16,16 +16,22 @@ class trader(object):
 
     def __init__(self):
 
-        self.simulator = None
+        self.simClock = va.simulator.simulator.simClock()
+        self.dataEngine = va.simulator.dataengine.dataEngine()
+        self.cycleManager = va.simulator.simulator.cycleManager()
+        self.portfolioManager = va.simulator.portfolioManager.portfolioManager(self)
 
         self.name = 'Anonymous Trader'
+
         self.currentStat = None
         self.stateUpdate = False
 
         self.symbols = []
+        self.number = 100
 
         #trader will not enter into new positions after DailyStopTime
         self.DailyStopTime = None
+        self.dailyStopDelta = 0
 
         self.reverse = False
         self.dir_long = 'long'
@@ -35,18 +41,40 @@ class trader(object):
         self.orderID = 1
         self.tradeID = 1
 
-    def linkSimulator(self,simulator):
-        self.simulator = simulator
+    def simulate(self):
+
+        '''
+        for each day from begindate to enddate,
+        load the data and dispatch it to registered strategies
+        if the data loaded include timestamps outside of the tima range,
+        to be modified
+        '''
+
+        for cycle in self.cycleManager.cycles:
+            '''
+            simulate for each cycle in cycles
+            '''
+
+            #load new data into simulator
+            self.replaceData(cycle)
+
+            #set daily stop time
+            stoptime = cycle['endTime'] - self.dailyStopDelta
+            self.setStopTime(stoptime)
+
+            #reset trader parameters
+            self.updateTrader()
+
+            #execute algo
+            if len(self.simClock.timeIndex) > 0:
+                self.run()
+                self.portfolioManager.recordEndCyclePortfolio(cycle['endTime'])
+
+        print 'Simulation completed'
+        self.portfolioManager.summarize()
 
     def setname(self,name):
         self.name = name
-
-    def setTradedSymbols(self,symbols):
-        '''
-        set symbols to be sent out by trader
-        '''
-
-        self.symbols = va.utils.utils.formlist(symbols)
 
     def setStopTime(self,DailyStopTime):
         '''
@@ -56,11 +84,49 @@ class trader(object):
         self.DailyStopTime = DailyStopTime
 
 
-    def setparams(self,params):
+    def setDailyStopDelta(self,deltaSeconds):
         '''
-        set the parameters of trader
+        set the time trader do not enter new positions
         '''
-        pass
+
+        self.dailyStopDelta = dt.timedelta(0,deltaSeconds)
+
+    def setcapital(self,value):
+        '''
+        set the initial value of simulation value
+        defaul to be 1 million
+        '''
+        self.portfolioManager.setcapital(value)
+
+    def setTradeVerbose(self, tradeVerbose):
+        self.portfolioManager.setTradeVerbose = tradeVerbose
+
+    def setData(self, datalist):
+        self.dataEngine.setData(datalist)
+        self.symbols = va.utils.utils.formlist(datalist)
+
+    def initializeCycle(self, begindate, begintime, enddate, endtime):
+        self.cycleManager.initializeCycle(begindate, begintime, enddate, endtime)
+
+    def replaceData(self,cycle):
+
+        '''
+        replace 1 cycle data into simulator for dispatch
+        '''
+
+        timeIndex = self.dataEngine.replaceData(cycle)
+
+        self.simClock.initializeTimeIndex(timeIndex)
+
+    def orderProcessor(self, order):
+
+        '''
+        callback function to receive order from trader
+        '''
+        trade =  self.dataEngine.fillOrder(order)
+
+        if trade != 'NA':
+            self.portfolioManager.updatePortfolio(trade)
 
     def Reverse(self,reverse):
         '''
@@ -89,13 +155,21 @@ class trader(object):
                     open = open,
                     orderType = orderType,
                     number = number)
-            self.simulator.orderProcessor(order)
+            self.orderProcessor(order)
 
             return tradeID
 
-
-
     ####CORE-BEGIN####
+
+    def initialize(self):
+        pass
+
+    def updateTrader(self):
+        '''
+        set the parameters of trader
+        '''
+        pass
+
     def updateState(self):
         '''
         update state value at current time
@@ -112,10 +186,10 @@ class trader(object):
         '''
         working flow of updateState() and logic()
         '''
-        while len(self.simulator.simClock.timeIndex) > 0:
-            #print i
-            self.simulator.simClock.updateTime()
-            self.now = self.simulator.simClock.now
+        while len(self.simClock.timeIndex) > 0:
+
+            self.simClock.updateTime()
+            self.now = self.simClock.now
 
             self.updateState()
 

@@ -50,7 +50,7 @@ class forex_quoteMatcher(orderMatcher):
     used to match transactions in forex_quote database
     '''
 
-    def singleprice(self,time,symbol,hdb):
+    def singlePrice(self,time,symbol,hdb):
 
         symbolhdb = hdb[hdb['symbol']==symbol.upper()]
         state = symbolhdb[:time].ix[-1]

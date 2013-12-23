@@ -1,26 +1,22 @@
 import VA_PYTHON as va
-import VD_DATABASE as vd
-import ipdb
 
 def demo():
     print 'demonstrating event system'
 
-    sim = va.simulator.simulator.simulator()
+    trader = va.strategy.hawkes.hawkes.hawkesTrader()
 
-    sim.linkTrader(va.strategy.hawkes.hawkes.hawkesTrader())
-
-    sim.setDailyStopDelta(deltaSeconds = 300)
-
-    parameters = {'theta':[0.5,0.5,0.1,0.5,0.5,0.1,0.6,0.6],
-                  'number':100,
+    parameters = {'theta':[0.25,0.25,0.1,0.5,0.5,0.1, 1, 1],
+                  'number':10000,
                   'k':3,
-                  'exitdelta':20}
+                  'exitPositionDeltaSeconds':20,
+                  'stopTradingDeltaSeconds': 300}
 
-    sim.setTraderParams(parameters)
+    trader.initialize(parameters)
 
-    sim.setData(('EURUSD',))
+    trader.setData(('EURUSD', ))
 
-    sim.initializeCycle('2013.01.01','23:00:00','2013.01.03','03:00:00')
+    trader.initializeCycle('2013.01.01', '23:00:00', '2013.01.03', '03:00:00')
 
-    return sim
+    return trader
+
 

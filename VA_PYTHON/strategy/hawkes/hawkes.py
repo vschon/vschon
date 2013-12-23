@@ -1,13 +1,8 @@
 import numpy as np
 import pandas as pd
-import VD_DATABASE as vd
 from VA_PYTHON.strategy.trader import trader
-from VA_PYTHON.simulator.simulator import simOrder
 import datetime as dt
-from collections import defaultdict
 import math
-import types
-from dateutil.parser import parse
 
 import ipdb
 
@@ -18,10 +13,7 @@ class hawkesTrader(trader):
     object to implement hawkes trading strategy
     '''
 
-    def __init__(self):
-
-        trader.__init__(self)
-
+    def initialize(self,params = None):
         #initialize the state
         self.currentState = {'time':None,
                       'price':0,
@@ -30,45 +22,28 @@ class hawkesTrader(trader):
                       'rate':None}
         self.stateUpdated = False
 
-        #parameters
-        self.a11 = 0.1
-        self.a12 = 0.6
-        self.a21 = 0.6
-        self.a22 = 0.1
-        self.mu1 = 0.5
-        self.mu2 = 0.5
-        self.beta1 = 1.0
-        self.beta2 = 1.0
-        self.threshold = 3.0
-        self.exitdelta = dt.timedelta(0,5)
-        self.number = 0
-
         #store the pending exit
         self.PendingExit = []
 
+        #parameters
+        if params == None:
+            self.mu1, self.mu2, self.a11, self.a12, self.a21, self.a22, self.beta1, self.beta2 = 0.5, 0.5, 0.1, 0.6, 0.6, 0.1, 1.0, 1.0
+            self.threshold = 3.0
+            self.exitdelta = dt.timedelta(seconds = 5)
+            self.number = 100
+            self.dailyStopDelta = dt.timedelta(seconds = 300)
+        else:
+            self.mu1, self.mu2, self.a11, self.a12, self.a21, self.a22, self.beta1, self.beta2 = params['theta']
+            self.threshold = params['k']
+            self.exitdelta = dt.timedelta(seconds = params['exitPositionDeltaSeconds'])
+            self.number = params['number']
+            self.dailyStopDelta = dt.timedelta(seconds = params['stopTradingDeltaSeconds'])
 
-    def setparams(self,params):
+
+    def updateTrader(self):
         '''
-        settthe parameters of hawkes process
-        otherwise, use default
         re_initialze current state
         '''
-
-        #set theta
-        theta = params['theta']
-
-        self.mu = np.array(theta[:2]).reshape(2,1)
-        self.alpha = np.array(theta[2:6]).reshape(2,2)
-        self.beta = np.array(theta[6:8]).reshape(2,1)
-
-        #set the number of units to trade
-        self.number = params['number']
-
-        #set the threshold for trigerring trades
-        self.threshold = params['k']
-
-        #set time in seconds to exit an opened positions(in seconds)
-        self.exitdelta = dt.timedelta(0, params['exitdelta'])
 
         #reinitialize state
         self.currentState['price'] = 0.0
@@ -82,7 +57,7 @@ class hawkesTrader(trader):
         update state
         '''
 
-        value = self.simulator.dataEngine.getPoint(self.symbols[0], self.now)
+        value = self.dataEngine.getPoint(self.symbols[0], self.now)
 
         if value['state'] == 'SUCCESS':
             point = value['data']
@@ -109,7 +84,6 @@ class hawkesTrader(trader):
 
                 self.stateUpdated = True
 
-
     def logic(self):
 
         #Exit existing positions
@@ -133,14 +107,14 @@ class hawkesTrader(trader):
                                number = self.number, orderType = 'MARKET')
                     exitTime = self.now + self.exitdelta
                     self.PendingExit.append({'time': exitTime, 'direction': self.dir_short, 'tradeID': entryTradeID})
-                    self.simulator.simClock.mark(exitTime)
+                    self.simClock.mark(exitTime)
 
                 elif self.currentState['rate'] < 1/self.threshold:
                     entryTradeID = self.trade(direction = self.dir_short, open = 'open', symbol = self.symbols[0],
                                number = self.number, orderType = 'MARKET')
                     exitTime = self.now + self.exitdelta
                     self.PendingExit.append({'time': exitTime, 'direction':self.dir_long, 'tradeID': entryTradeID})
-                    self.simulator.simClock.mark(exitTime)
+                    self.simClock.mark(exitTime)
                 self.stateUpdated = False
 
 

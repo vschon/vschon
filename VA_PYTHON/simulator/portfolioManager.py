@@ -15,9 +15,9 @@ import ipdb
 class portfolioManager(object):
 
 
-    def __init__(self, simulator):
+    def __init__(self, trader):
 
-        self.simulator = simulator
+        self.trader = trader
 
         self.initialcapital = 1000000.0
         self.portfolioSymbol = set()
@@ -27,8 +27,13 @@ class portfolioManager(object):
                  open = 'open', tradeID = np.zeros(100000),
                  cash=np.zeros(100000),value=np.zeros(100000)),
             columns = ['time', 'tradeID', 'symbol','price','number','direction','open','cash','value'])
+        self.cycleEndPortfolio = None
+        self.cycleEndPortfolio_list = []
         self.tradeIndex = 0
         self.tradeVerbose = True
+
+        self.portfolioPerformance = {}
+        self.tradeAnalysis = {}
 
     def setcapital(self,value):
         '''
@@ -38,8 +43,11 @@ class portfolioManager(object):
         self.initialcapital = value
 
     def getLatestPortfolio(self):
-        latestIndex = self.tradeIndex - 1
-        return self.portfolio.ix[latestIndex]
+        if self.tradeIndex > 0:
+            latestIndex = self.tradeIndex - 1
+            return self.portfolio.ix[latestIndex]
+        else:
+            return {'cash': self.initialcapital, 'value': self.initialcapital}
 
     def getLatestLongPosition(self, symbol):
         point = self.getLatestPortfolio()
@@ -56,14 +64,28 @@ class portfolioManager(object):
             return 0
 
     def getLatestNetPosition(self, symbol):
-        netPosition = self.getLatestLongPosition(symbol) - self.getLatestshortPosition(symbol)
+        netPosition = self.getLatestLongPosition(symbol) - self.getLatestShortPosition(symbol)
         return netPosition
 
     def getLatestCash(self):
-        return self.getLatestPortfolio['cash']
+        return self.getLatestPortfolio()['cash']
 
     def getLatestWealth(self):
-        return self.getLatestPortfolio['value']
+        return self.getLatestPortfolio()['value']
+
+    def recordEndCyclePortfolio(self, cycleEndTime):
+        temp = {}
+        temp['time'] = cycleEndTime
+        temp['cash'] = self.getLatestCash()
+        position = 0.0
+        for symbol in self.portfolioSymbol:
+            netPosition = self.getLatestNetPosition(symbol)
+            price = self.trader.dataEngine.queryPrice(symbol, cycleEndTime)
+            position += netPosition * price
+        temp['position'] = position
+        temp['value'] = temp['position'] + temp['cash']
+        self.cycleEndPortfolio_list.append(temp)
+
 
     def updatePortfolio(self,trade):
         '''
@@ -151,7 +173,7 @@ class portfolioManager(object):
         tempsym = self.portfolioSymbol.difference(tempset)
 
         for sym in tempsym:
-            tempprice =  self.simulator.dataEngine.queryPrice(sym, time)
+            tempprice =  self.trader.dataEngine.queryPrice(sym, time)
             self.portfolio[sym + '-price'][self.tradeIndex] = tempprice
 
         #update portfolio value
@@ -186,6 +208,7 @@ class portfolioManager(object):
     def summarize(self):
         self.portfolio = self.portfolio[self.portfolio['price']!=0]
         self.__portfolioAnalyzer()
+        self.__tradeAnalyzer()
 
     def __tradeAnalyzer(self):
         pass
@@ -194,78 +217,62 @@ class portfolioManager(object):
         '''
         evaluate the performance of trader
         '''
+        self.cycleEndPortfolio = pd.DataFrame(self.cycleEndPortfolio_list,
+                                  columns = ['time', 'cash', 'position', 'value'])
+        self.cycleEndPortfolio.index = self.cycleEndPortfolio['time']
 
-        '''
-        ALGO:
-            For general-daily analysis
-            cut un-filled entries
-            divide the portfolio into cycles
-            suppose each cycle corresponds to each day
-        '''
 
-        result = self.portfolio
-        result.index = result['time']
-        cycles = self.simulator.cycleManager.cycles
         initialValue = self.initialcapital
-        #cut the result based on cycles
-        divisions = [result[va.utils.utils.datetime2str(cycle['beginTime']):va.utils.utils.datetime2str(cycle['endTime'])] for cycle in cycles]
-
-        #for per cycle value
-        summary_list = []
-        for i in range(len(cycles)):
-            temp = {}
-            element = divisions[i]
-            cycle = cycles[i]
-            if element.shape[0] == 0:
-                pass
-            else:
-                #set time
-                temp['beginTime'] = cycle['beginTime']
-                temp['beginDate'] = cycle['beginDate']
-                temp['endTime'] = cycle['endTime']
-                temp['endDate'] = cycle['endDate']
-
-                #fill portfolio value for each date
-                temp['value'] = element['value'].ix[-1]
-            summary_list.append(temp)
-
-        summary_df = pd.DataFrame(summary_list,
-                                  columns = ['beginTime','value','beginDate','endTime','endDate'])
-
 
         #drop empty entries
-        summary_df = summary_df.dropna()
-        value = summary_df['value'].values
+        self.cycleEndPortfolio = self.cycleEndPortfolio.dropna()
+
+        value = self.cycleEndPortfolio['value'].values
         aug_value = np.insert(value,0,initialValue)
         daily_return = aug_value[1:] / aug_value[:-1] - 1
+        self.cycleEndPortfolio['dailyReturn'] = daily_return
 
         #cumulative return
-        cum_return = aug_value/aug_value[0] - 1
-        cum_return = np.delete(cum_return,0)
-
+        cum_return = aug_value/aug_value[0]
         #sharpe ratio
         avg_return = np.average(daily_return)
         std_return = np.std(daily_return)
         sharpe = math.sqrt(250) * avg_return / std_return
 
         #drawdown and drawdown duration
-        drawdown = np.zeros(value.shape)
-        drawdownDuration = np.zeros(value.shape)
-        highwatermark = np.zeros(value.shape)
+        drawdown = np.zeros(cum_return.shape)
+        drawdownDuration = np.zeros(cum_return.shape)
+        highwatermark = np.zeros(cum_return.shape)
 
-        for t in range(value.shape[0]) :
+        drawdown[0] = 0.0
+        drawdownDuration[0] = 0
+        highwatermark[0] = 1
+
+        for t in range(1,cum_return.shape[0]) :
             highwatermark[t] = (max(highwatermark[t-1], cum_return[t]))
             drawdown[t]= - (highwatermark[t]-cum_return[t])
             drawdownDuration[t]= (0 if drawdown[t] == 0 else drawdownDuration[t-1]+1)
 
-        summary_df['daily_return'] = daily_return
-        summary_df['drawdown'] = drawdown
-        summary_df['drawdown_duration'] = drawdownDuration
+        maxdrawdown = np.min(drawdown)
+        maxdrawdown_duration = np.max(drawdownDuration)
 
-        maxdrawdown = np.argmin(drawdown)
-        maxdrawdown_duration = np.argmax(drawdownDuration)
+        cum_return = np.delete(cum_return, 0)
+        drawdown = np.delete(drawdown, 0)
+        drawdownDuration = np.delete(drawdownDuration, 0)
 
-        return summary_df
+        self.cycleEndPortfolio['cumulativeReturn'] = cum_return
+        self.cycleEndPortfolio['daily_return'] = daily_return
+        self.cycleEndPortfolio['drawdown'] = drawdown
+        self.cycleEndPortfolio['drawdown_duration'] = drawdownDuration
+
+
+        self.portfolioPerformance['cum_return'] = cum_return[-1]
+        self.portfolioPerformance['avg_return'] = avg_return
+        self.portfolioPerformance['std'] = std_return
+        self.portfolioPerformance['sharpe'] = sharpe
+        self.portfolioPerformance['maxdrawdown'] = maxdrawdown
+        self.portfolioPerformance['maxdrawdown_dur'] = maxdrawdown_duration
+
 
         #General analyzer
         #maximum winning days
