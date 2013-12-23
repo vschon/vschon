@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import math
 import VA_PYTHON as va
-import VD_KDB as vd
+from VA_PYTHON.simulator.dataengine import *
+import VD_DATABASE as vd
 from collections import defaultdict
 import datetime as dt
 from time import strptime
@@ -20,96 +21,57 @@ def timeunitparse(timeunit):
             unit = i + unit
             return (int(value),unit)
 
-class simDataLoader():
 
-    def __init__(self):
-        self.conn = vd.pyapi.kdblogin()
+class simOrder(object):
 
-    def load(self,command):
+    def __init__(self, orderID, time, direction, open,
+                 symbol, orderType, number,
+                 limitPrice=0, tradeID = 0):
         '''
-        the base function
-        load data from kdb into pd time series
-        '''
-
-        result = vd.pyapi.qtable2df(self.conn.k(command))
-        if 'time' in result.columns:
-            result.index = result['time']
-
-        return result
-
-    def tickerload(self,source,symbol,begindate,enddate = None):
-        '''
-        load data as df
+        tradeID:        trade ID
+        orderID:             order ID
+        time:           dt.datetime
+        direction:      'long'/'short'
+        symbol:         string
+        open:           'open'/'close'
+        orderType:      'MARKET'/'LIMIT'
+        number:         int
+        limit_price:    float
         '''
 
-        if enddate == None:
-            enddate = begindate
+        self.tradeID = tradeID
+        self.orderID = orderID
+        self.time =  time
+        self.direction = direction
+        self.open = open
+        self.symbol = symbol
+        self.orderType = orderType
+        self.number = number
+        self.limitPrice = limitPrice
 
-        daterange = '(' + begindate + ';' + enddate + ')'
-
-        if source != symbol:
-            command = 'select from ' + source + ' where date within ' + \
-                    daterange + ',symbol=`' + symbol.upper()
-        else:
-            command = 'select from ' + source + ' where date within ' +  daterange
-
-        return self.load(command)
-
-
-def generateSimOrder(id,time,direction,open,
-                     symbol,orderType,number,
-                     limit_price=0):
-    '''
-    id:             order ID
-    time:           dt.datetime
-    direction:      'long'/'short'
-    symbol:         string
-    open:           True/False
-    orderType:      'MARKET'/'LIMIT'
-    number:         int
-    limit_price:    float
-    '''
-    return {'orderID':      id,
-            'time':         time,
-            'direction':    direction,
-            'open':         open,
-            'symbol':       symbol,
-            'type':         orderType,
-            'number':       number,
-            'limit_price':  limit_price}
-
-
-class simulator():
+class simClock(object):
 
     def __init__(self):
 
-        #used to load data from kdb
-        self.dataloader = simDataLoader()
+        self.timeIndex = None
+        self.now = None
 
-        #hdb: holds data from different datasource in df type
-        self.hdb = []
+    def initializeTimeIndex(self,timeIndex):
+        self.timeIndex = timeIndex
 
-        #IMDB is the in memory database to be sent to trader
-        self.IMDB = []
+    def mark(self,timestamp):
+        if timestamp not in self.timeIndex:
+            self.timeIndex = self.timeIndex.insert(
+                self.timeIndex.searchsorted(timestamp), timestamp)
 
-        #market: hold data in pd dataframe type, used for transaction matching
-        self.market = []
+    def updateTime(self):
+        self.now = self.timeIndex[0]
+        self.timeIndex = self.timeIndex.delete(0)
 
-        #Store HDB data list
-        #market data first, non-markte data last
-        self.datalist = []
+class cycleManager(object):
 
-        #Store market data list
-        self.marketlist = []
+    def __init__(self):
 
-        #store the match between trader symbol and market data index
-        #key:symbol value:int - index of market data
-        self.symbol_market_pair = defaultdict()
-
-        #store the order matcher for each market data
-        self.matcher = []
-
-        #testing cycle config
         self.cycleBeginDate = None
         self.cycleEndDate = None
         self.cycleBeginTimeDelta = None
@@ -123,7 +85,62 @@ class simulator():
         self.cycles = []
 
 
-        self.traderLoader = va.strategy.trader.TraderLoader()
+    def initializeCycle(self, begindate, begintime, enddate, endtime):
+            '''
+            parse the begin datetime and end datetime
+            generate self.cycle based on input
+            '''
+
+            begintime = strptime(begintime, '%H:%M:%S')
+            endtime = strptime(endtime, '%H:%M:%S')
+
+            OneDayDelta = dt.timedelta(0)
+
+
+            if endtime > begintime:
+                self.crossMidNight = False
+            elif endtime < begintime:
+                self.crossMidNight = True
+                OneDayDelta = dt.timedelta(1)
+            else:
+                #begintime = endtime not allowed
+                print 'begintime cannot be the same as endtime'
+
+            self.cycleBeginTimeDelta = dt.timedelta(hours= begintime.tm_hour,minutes = begintime.tm_min, seconds = begintime.tm_sec)
+            self.cycleEndTimeDelta = dt.timedelta(hours= endtime.tm_hour,minutes = endtime.tm_min, seconds = endtime.tm_sec)
+            self.cycleBeginDate = parse(begindate)
+            self.cycleEndDate = parse(enddate)
+
+            beginDateRange = list(rrule.rrule(rrule.DAILY, dtstart = self.cycleBeginDate, until = self.cycleEndDate))
+
+            for beginDate in beginDateRange:
+                element = {'beginDate':beginDate,
+                        'endDate':beginDate + OneDayDelta,
+                        'beginTime':beginDate + self.cycleBeginTimeDelta,
+                        'endTime':beginDate + OneDayDelta + self.cycleEndTimeDelta}
+                self.cycles.append(element)
+
+class simulator(object):
+
+    def __init__(self):
+
+        #the simulated clock
+        self.simClock = simClock()
+
+        self.dataEngine = dataEngine
+
+        #used to load data from kdb
+        self.dataloader = simDataLoader()
+
+        self.dataCells = []
+
+        self.cycleManager = cycleManager()
+
+        #store the match between trader symbol and market data index
+        #key:symbol value:int - index of market data
+        self.symbol_market_pair = defaultdict()
+
+        #self.traderLoader = va.strategy.trader.TraderLoader()
         self.trader = None
         self.traderparams = None
 
@@ -137,157 +154,26 @@ class simulator():
         self.portfolio = pd.DataFrame(
             dict(time=dt.datetime(1990,1,1),symbol='VSCHON',price=np.zeros(100000),
                  number=np.zeros(100000),direction='long',
-                 open = True,
+                 open = 'open', tradeID = np.zeros(100000),
                  cash=np.zeros(100000),value=np.zeros(100000)),
-            columns = ['time','symbol','price','number','direction','open','cash','value'])
+            columns = ['time', 'tradeID', 'symbol','price','number','direction','open','cash','value'])
         self.tradeIndex = 0
+        self.tradeVerbose = True
+
+    def setData(self, datalist):
+        self.trader.setTradedSymbol(datalist)
+        self.dataEngine.setData(datalist)
 
 
-    def setdatalist(self, datalist):
-        '''
-        fill datalist in a convenient way
+    def initializeCycle(self, begindate, begintime, enddate, endtime):
+        self.cycleManager.initializeCycle(begindate, begintime, enddate, endtime)
 
-        input:
-            datalist: tuple of ('forex_quote-usdjpy','source-symbol')
-            market data first, non-market data last
-
-        output:
-            list of dict
-            self.datalist:[{'name':symbol,'source':source},...]
-        '''
-
-        if type(datalist) is not types.TupleType and type(datalist) is not list:
-            datalist = (datalist, )
-
-        for SourceSymbol in datalist:
-            try:
-                [source, symbol] = SourceSymbol.split('-')
-                temp = {}
-                temp['name'] = symbol
-                temp['source'] = source
-                self.datalist.append(temp)
-            except ValueError:
-                source = SourceSymbol
-                temp = {}
-                temp['name'] = source
-                temp['source'] = source
-                self.datalist.append(temp)
-
-    def emptydatalist(self):
-        self.datalist = []
-
-    def setMarketList(self,n):
-        '''
-        choose the data used for transaction matching
-        set the order matched based on market data source
-        set the delay time of each order mathcer (unit:millisecond)
-
-        input: the first n element in datalist as market list
-        '''
-
-        self.marketlist = self.datalist[:n]
-
-    def setOrderMatcher(self,matcherlist):
-
-        if type(matcherlist) is not types.TupleType and type(matcherlist) is not list:
-            matcherlist = [matcherlist,]
-
-        #set the corresponding order matcher
-        for element in matcherlist:
-            if element == 'forex_quote':
-                temp = va.simulator.ordermatcher.forex_quote_matcher()
-            else:
-                print 'no ' + element + '!'
-            self.matcher.append(temp)
-
-    def setDelayTime(self,delayList):
-        '''
-        set the delay time for each mather
-
-        input:
-            [3,2]
-            delay microseconds for each matcher
-        '''
-
-        if type(delayList) is not types.TupleType and type(delayList) is not list:
-            delayList = (delayList,)
-
-        for i in range(len(delayList)):
-            self.matcher[i].setdelay(delayList[i])
-
-
-    def matchSymbol(self,pairs):
-        '''
-        match the symbol sent from trader and the symbol in the market data
-
-        input:
-            symbol: list of symbol pair
-                    ['ABC-0','DEF-1']
-                    'ABC':symbol sent from trader
-                    0: index of symbol in the self.market
-        '''
-
-        if type(pairs) is not types.TupleType and type(pairs) is not list:
-            pairs = (pairs,)
-        for pair in pairs:
-            [symbol,index] = pair.split('-')
-            self.symbol_market_pair[symbol] = int(index)
-
-    def linksender(self):
-        for element in self.trader.sender:
-            element.linkTrader(self.trader)
-            element.linkSimulator(self)
-
-
-    def setCycle(self, begindate, begintime, enddate, endtime):
-        '''
-        parse the begin datetime and end datetime
-        generate self.cycle based on input
-        '''
-
-        begintime = strptime(begintime, '%H:%M:%S')
-        endtime = strptime(endtime, '%H:%M:%S')
-
-        OneDayDelta = dt.timedelta(0)
-
-
-        if endtime > begintime:
-            self.crossMidNight = False
-        elif endtime < begintime:
-            self.crossMidNight = True
-            OneDayDelta = dt.timedelta(1)
-        else:
-            #begintime = endtime not allowed
-            print 'begintime cannot be the same as endtime'
-
-        self.cycleBeginTimeDelta = dt.timedelta(hours= begintime.tm_hour,minutes = begintime.tm_min, seconds = begintime.tm_sec)
-        self.cycleEndTimeDelta = dt.timedelta(hours= endtime.tm_hour,minutes = endtime.tm_min, seconds = endtime.tm_sec)
-        self.cycleBeginDate = parse(begindate)
-        self.cycleEndDate = parse(enddate)
-
-        beginDateRange = list(rrule.rrule(rrule.DAILY, dtstart = self.cycleBeginDate, until = self.cycleEndDate))
-
-        for beginDate in beginDateRange:
-            element = {'beginDate':beginDate,
-                       'endDate':beginDate + OneDayDelta,
-                       'beginTime':beginDate + self.cycleBeginTimeDelta,
-                       'endTime':beginDate + OneDayDelta + self.cycleEndTimeDelta}
-            self.cycles.append(element)
-
-        #Initializing
-
-    def setDailyStopDelta(self,delta):
+    def setDailyStopDelta(self,deltaSeconds):
         '''
         set the time trader do not enter new positions
         '''
 
-        self.dailyStopDelta = dt.timedelta(0,delta)
-
-    def setSimTimerIncrement(self,increment):
-        '''
-        set the increment of sim timer of trader
-        '''
-        self.simTimerIncrement = increment
+        self.dailyStopDelta = dt.timedelta(0,deltaSeconds)
 
     def setcapital(self,value):
         '''
@@ -296,15 +182,16 @@ class simulator():
         '''
         self.initialcapital = value
 
+    def setTradeVerbose(self, tradeVerbose):
+        self.tradeVerbose = tradeVerbose
 
-    def setTrader(self,trader):
+
+    def linkTrader(self,trader):
         '''
         set the trader for simulation
         '''
-        if trader in self.traderLoader.traderlib.keys():
-            self.trader = self.traderLoader.load(trader)
-        else:
-            print 'trader name not in trader library!'
+        self.trader = trader
+        self.trader.linkSimulator(self)
 
     def setTraderParams(self,params):
         self.traderparams = params
@@ -315,28 +202,14 @@ class simulator():
         '''
         replace 1 cycle data into simulator for dispatch
         '''
-        #ipdb.set_trace()
 
-        self.hdb = []
-        self.market = []
-        self.IMDB = []
+        timeIndex = self.dataEngine.replaceData(cycle)
 
-        for element in self.datalist:
-            beginDate = cycle['beginDate'].strftime('%Y.%m.%d')
-            endDate = cycle['endDate'].strftime('%Y.%m.%d')
+        self.simClock.initializeTimeIndex(timeIndex)
 
-            temp = self.dataloader.tickerload(symbol= element['name'], source = element['source'],begindate = beginDate, enddate = endDate)
-            temp = temp.drop_duplicates(cols = 'time')
-            temp = temp[cycle['beginTime'].strftime('%Y-%m-%d %H:%M:%S'):cycle['endTime'].strftime('%Y-%m-%d %H:%M:%S')]
-
-            #updating hdb and imdb
-            self.hdb.append(temp)
-            self.IMDB.append(list(temp.itertuples()))
-
-        #updating market data
-        for j in range(len(self.marketlist)):
-            self.market.append(self.hdb[j])
-
+    def __printTrade(self,trade):
+        print trade['time'].strftime(format = "%Y%m%d %H:%M:%S.%f") + " ",
+        print "%s %s %d %s at %f" % (trade['open'], trade['direction'], trade['number'], trade['symbol'], trade['price'])
 
     def updatePortfolio(self,trade):
         '''
@@ -347,11 +220,12 @@ class simulator():
         if self.tradeIndex%100000 == 0 and self.tradeIndex!=0:
             portfolio_copy = self.portfolio[:100000].copy()
             portfolio_copy['price'] = dt.datetime(1990,1,1)
+            portfolio_copy['tradeID'] = 0
             portfolio_copy['symbol'] = 'VSCHON'
             portfolio_copy['price'] = 0.0
             portfolio_copy['number'] = 0.0
             portfolio_copy['direction'] = 'long'
-            portfolio_copy['open'] = True
+            portfolio_copy['open'] = 'open'
             portfolio_copy['cash'] = 0.0
             portfolio_copy['value'] = 0.0
             self.portfolio = pd.concat([self.portfolio,portfolio_copy],ignore_index=True)
@@ -362,6 +236,7 @@ class simulator():
         direction = trade['direction']
         number = trade['number']
         open = trade['open']
+        tradeID = trade['tradeID']
 
         mark = 0.0
         if direction == 'long':
@@ -376,18 +251,20 @@ class simulator():
             self.portfolio[symbol + '-price'] = np.zeros(self.portfolio.shape[0])
             self.portfolioSymbol.add(symbol)
 
+        #ipdb.set_trace()
+
         if self.tradeIndex == 0:
             #special case for first trade
             #update cash
             self.portfolio['cash'][self.tradeIndex] = self.initialcapital - mark*number*price
 
             #update traded symbol number
-            if open == True:
+            if open == 'open':
                 if direction == 'long':
                     self.portfolio[symbol + '-long'][self.tradeIndex] = number
                 elif direction == 'short':
                     self.portfolio[symbol + '-short'][self.tradeIndex] = number
-            elif open == False:
+            elif open == 'close':
                 if direction == 'short':
                     self.portfolio[symbol + '-long'][self.tradeIndex] = -number
                 elif direction == 'long':
@@ -400,12 +277,12 @@ class simulator():
             self.portfolio['cash'][self.tradeIndex] = self.portfolio['cash'][self.tradeIndex-1] - mark*number*price
 
             #update traded symbol number
-            if open == True:
+            if open == 'open':
                 if direction == 'long':
                     self.portfolio[symbol + '-long'][self.tradeIndex] = number + self.portfolio.ix[self.tradeIndex][symbol + '-long']
                 elif direction == 'short':
                     self.portfolio[symbol + '-short'][self.tradeIndex] = number + self.portfolio.ix[self.tradeIndex][symbol + '-short']
-            elif open == False:
+            elif open == 'close':
                 if direction == 'short':
                     self.portfolio[symbol + '-long'][self.tradeIndex] = -number + self.portfolio.ix[self.tradeIndex][symbol + '-long']
                 elif direction == 'long':
@@ -438,24 +315,20 @@ class simulator():
         self.portfolio['number'][self.tradeIndex] = number
         self.portfolio['direction'][self.tradeIndex] = direction
         self.portfolio['open'][self.tradeIndex] = open
+        self.portfolio['tradeID'][self.tradeIndex] = tradeID
 
-        print trade
-        print self.portfolio['value'][self.tradeIndex]
+        if self.tradeVerbose == True:
+            self.__printTrade(trade)
+            print 'Portfolio Value: ' + str(self.portfolio['value'][self.tradeIndex]) + '\n'
         self.tradeIndex += 1
 
 
-    def simOrderProcessor(self, order):
+    def orderProcessor(self, order):
 
         '''
         callback function to receive order from trader
         '''
-        #ipdb.set_trace()
-
-        #translate order symbol into market symbol
-        index = self.symbol_market_pair[order['symbol']]
-
-        #match trade
-        trade =  self.matcher[index].match(order,self.market[index])
+        trade =  self.dataEngine.fillOrder(order)
 
         if trade != 'NA':
             self.updatePortfolio(trade)
@@ -474,21 +347,14 @@ class simulator():
         #if self.ready == False:
         #    return -1
 
-        for cycle in self.cycles:
+        for cycle in self.cycleManager.cycles:
             '''
             simulate for each cycle in cycles
             '''
 
+            #ipdb.set_trace()
             #load new data into simulator
             self.replaceData(cycle)
-
-            #pass imdb to filters of trader
-            self.trader.linkimdb(self.IMDB)
-            #self.trader.linkimdb([self.IMDB[0],self.IMDB[1]])
-
-            #set new cycle begin time of trader
-            begintime = cycle['beginTime'] - dt.timedelta(0,180)
-            self.trader.setsimtimer(begintime,self.simTimerIncrement)
 
             #set daily stop time
             stoptime = cycle['endTime'] - self.dailyStopDelta
@@ -498,11 +364,15 @@ class simulator():
             self.trader.setparams(self.traderparams)
 
             #execute algo
-            self.trader.run()
+            if len(self.simClock.timeIndex) > 0:
+                self.trader.run()
+
+        self.portfolio = self.portfolio[self.portfolio['price']!=0]
+        self.__portfolioAnalyzer()
 
         print 'Simulation completed'
 
-    def portfolioAnalyzer(self,portfolio,cycles,initialValue):
+    def __portfolioAnalyzer(self):
         '''
         evaluate the performance of trader
         '''
@@ -515,8 +385,10 @@ class simulator():
             suppose each cycle corresponds to each day
         '''
 
-        result = portfolio[portfolio['price'] != 0]
+        result = self.portfolio
         result.index = result['time']
+        cycles = self.cycleManager.cycles
+        initialValue = self.initialcapital
         #cut the result based on cycles
         divisions = [result[va.utils.utils.datetime2str(cycle['beginTime']):va.utils.utils.datetime2str(cycle['endTime'])] for cycle in cycles]
 
@@ -574,9 +446,6 @@ class simulator():
 
         maxdrawdown = np.argmin(drawdown)
         maxdrawdown_duration = np.argmax(drawdownDuration)
-
-
-
 
         return summary_df
 

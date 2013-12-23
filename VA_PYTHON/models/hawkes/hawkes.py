@@ -7,7 +7,7 @@ from scipy.optimize import minimize
 import getR
 import datetime as dt
 import os
-import VD_KDB as vd
+import VD_DATABASE as vd
 import VA_PYTHON as va
 import ipdb
 

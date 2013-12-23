@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import VA_PYTHON as va
-import VD_KDB as vd
-from VA_PYTHON.datamanage.datahandler import Sender
+import VD_DATABASE as vd
+#from VA_PYTHON.datamanage.datahandler import Sender
 from collections import defaultdict
 import datetime as dt
 from time import strptime
@@ -11,22 +11,17 @@ from dateutil.parser import parse
 import types
 import ipdb
 
-
-class forex_quote_matcher():
-    '''
-    used to match transactions in forex_quote database
-    '''
+class orderMatcher(object):
 
     def __init__(self):
-
         #delay in milliseconds
-        self.delay = dt.timedelta(0,0,0)
+        self.delay = dt.timedelta(0, 0, 2000)
 
-    def setdelay(self,delay):
+    def setdelay(self,microsecondDelay):
         '''
-        set transaction delay (in milliseconds)
+        set transaction delay (in microseconds)
         '''
-        self.delay = dt.timedelta(0,0,delay)
+        self.delay = dt.timedelta(0,0,microsecondDelay)
 
     def fetchpoint(self,time,symbol,hdb):
         '''
@@ -36,6 +31,25 @@ class forex_quote_matcher():
         state = symbolhdb[:time].ix[-1]
         return state
 
+    def match(self,order,hdb):
+        trade = None
+        if order.orderType == 'MARKET':
+            trade = self.matchMarketOrder(order,hdb)
+        elif order.orderType == 'LIMIT':
+            pass
+        return trade
+
+    def matchMarketOrder(self):
+        pass
+
+    def singlePrice(self):
+        pass
+
+class forex_quoteMatcher(orderMatcher):
+    '''
+    used to match transactions in forex_quote database
+    '''
+
     def singleprice(self,time,symbol,hdb):
 
         symbolhdb = hdb[hdb['symbol']==symbol.upper()]
@@ -44,31 +58,25 @@ class forex_quote_matcher():
         return price
 
 
-    def marketmatch(self,order,hdb):
+    def matchMarketOrder(self,order,hdb):
         #ipdb.set_trace()
-        transactTime = order['time'] + self.delay
+        transactTime = order.time + self.delay
 
         #extract the data of the symbol
-        state = self.fetchpoint(transactTime,order['symbol'],hdb)
+        state = self.fetchpoint(transactTime,order.symbol,hdb)
 
-        if order['direction'] == 'long':
+        if order.direction == 'long':
             transactPrice = state['ask']
-        elif order['direction'] == 'short':
+        elif order.direction == 'short':
             transactPrice = state['bid']
 
         trade = {'time':transactTime,
                  'price':transactPrice,
-                 'direction':order['direction'],
-                 'symbol':order['symbol'],
-                 'number':order['number'],
-                 'open':order['open']}
-
+                 'direction':order.direction,
+                 'symbol':order.symbol,
+                 'number':order.number,
+                 'open':order.open,
+                 'tradeID': order.tradeID}
         return trade
 
-    def match(self,order,hdb):
-        trade = None
-        if order['type'] == 'MARKET':
-            trade = self.marketmatch(order,hdb)
-        elif order['type'] == 'LIMIT':
-            pass
-        return trade
+

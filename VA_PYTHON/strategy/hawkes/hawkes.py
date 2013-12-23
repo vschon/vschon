@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-import VD_KDB as vd
+import VD_DATABASE as vd
 from VA_PYTHON.strategy.trader import trader
+from VA_PYTHON.simulator.simulator import simOrder
 import datetime as dt
 from collections import defaultdict
 import math
@@ -75,23 +76,26 @@ class hawkesTrader(trader):
         self.currentState['neg'] = self.mu2
         self.currentState['rate'] = self.mu1/self.mu2
 
-    def updatestate(self):
+    def updateState(self):
         '''
         get data from imdb
         update state
         '''
 
-        point = self.filter[0].fetch()
+        #ipdb.set_trace()
 
-        if point != -1:
-            #point = -1 means no data fetched
+        value = self.simulator.dataCells[0].getPoint(self.now)
+        if value['state'] == 'SUCCESS':
+            point = value['data']
+            price = (point['bid'] + point['ask']) / 2.0
+            time = point['time']
 
             if self.currentState['price'] == 0:
-                self.currentState['price'] = point['price']
-                self.currentState['time'] = point['time']
-            elif point['price'] != self.currentState['price']:
-                delta = (point['time'] - self.currentState['time']).total_seconds()
-                mark = point['price'] - self.currentState['price']
+                self.currentState['price'] = price
+                self.currentState['time'] = time
+            elif price != self.currentState['price']:
+                delta = (time - self.currentState['time']).total_seconds()
+                mark = price - self.currentState['price']
 
                 if mark > 0:
                     self.currentState['pos'] = (self.currentState['pos'] - self.mu1)/math.exp(self.beta1*delta) + self.mu1 + self.a11
@@ -101,8 +105,8 @@ class hawkesTrader(trader):
                     self.currentState['neg'] = (self.currentState['neg'] - self.mu2)/math.exp(self.beta2*delta) + self.mu2 + self.a22
 
                 self.currentState['rate'] = self.currentState['pos']/self.currentState['neg']
-                self.currentState['time'] = point['time']
-                self.currentState['price'] = point['price']
+                self.currentState['time'] = time
+                self.currentState['price'] = price
 
                 self.stateUpdated = True
 
@@ -116,7 +120,7 @@ class hawkesTrader(trader):
             while self.now >= self.PendingExit[0]['time']:
                 #Order(self.PendingExit)
                 temp_order = self.PendingExit[0]
-                self.sender[0].SendOrder(direction=temp_order['direction'],open=False,symbol=self.symbols[0],number=self.number)
+                self.trade(tradeID = temp_order['tradeID'], direction=temp_order['direction'],open='close',symbol=self.symbols[0],number=self.number)
                 self.PendingExit.pop(0)
                 if len(self.PendingExit) == 0:
                     break
@@ -126,55 +130,18 @@ class hawkesTrader(trader):
             if self.stateUpdated == True:
                 #print self.currentState
                 if self.currentState['rate'] > self.threshold:
-                    #ipdb.set_trace()
-                    self.PendingExit.append({'time':self.now + self.exitdelta,'direction': self.dir_short})
-                    self.sender[0].SendOrder(direction = self.dir_long, open = True, symbol = self.symbols[0], number = self.number)
+                    entryTradeID = self.trade(direction = self.dir_long, open = 'open', symbol = self.symbols[0],
+                               number = self.number, orderType = 'MARKET')
+                    exitTime = self.now + self.exitdelta
+                    self.PendingExit.append({'time': exitTime, 'direction': self.dir_short, 'tradeID': entryTradeID})
+                    self.simulator.simClock.mark(exitTime)
+
                 elif self.currentState['rate'] < 1/self.threshold:
-                    #ipdb.set_trace()
-                    self.PendingExit.append({'time':self.now + self.exitdelta,'direction':self.dir_long})
-                    self.sender[0].SendOrder(direction = self.dir_short, open = True, symbol = self.symbols[0], number = self.number)
+                    entryTradeID = self.trade(direction = self.dir_short, open = 'open', symbol = self.symbols[0],
+                               number = self.number, orderType = 'MARKET')
+                    exitTime = self.now + self.exitdelta
+                    self.PendingExit.append({'time': exitTime, 'direction':self.dir_long, 'tradeID': entryTradeID})
+                    self.simulator.simClock.mark(exitTime)
                 self.stateUpdated = False
-
-class hawkesTrader_filter(hawkesTrader):
-
-    '''
-    add filter for updating state
-    '''
-    def updatestate(self):
-        '''
-        get data from imdb
-        update state
-        '''
-
-        point = self.filter[0].fetch()
-
-        if point != -1:
-            #point = -1 means no data fetched
-
-            if self.currentState['price'] == 0:
-                self.currentState['price'] = point['price']
-                self.currentState['time'] = point['time']
-            elif abs(point['price'] - self.currentState['price']) > 0.008:
-                #only consider significant movement
-                delta = (point['time'] - self.currentState['time']).total_seconds()
-                mark = point['price'] - self.currentState['price']
-
-                #ipdb.set_trace()
-                if delta>60:
-                    #if delta is too large, avoid overflow in exponential calculation
-                    self.currentState['pos'] = self.mu1
-                    self.currentState['neg'] = self.mu2
-                else:
-                    if mark > 0:
-                        self.currentState['pos'] = (self.currentState['pos'] - self.mu1)/math.exp(self.beta1*delta) + self.mu1 + self.a11
-                        self.currentState['neg'] = (self.currentState['neg'] - self.mu2)/math.exp(self.beta2*delta) + self.mu2 + self.a21
-                    else:
-                        self.currentState['pos'] = (self.currentState['pos'] - self.mu1)/math.exp(self.beta1*delta) + self.mu1 + self.a12
-                        self.currentState['neg'] = (self.currentState['neg'] - self.mu2)/math.exp(self.beta2*delta) + self.mu2 + self.a22
-                self.currentState['rate'] = self.currentState['pos']/self.currentState['neg']
-                self.currentState['time'] = point['time']
-                self.currentState['price'] = point['price']
-
-                self.stateUpdated = True
 
 
